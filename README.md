@@ -59,16 +59,21 @@ Page “Налаштування Pomo” contains Pomodoro settings.
 All data will be synchronized with server db.
 
 When we both devices are connected to the network :
+- when we start the timer on one of the devices on the other, we can see the timer already running and its status.
 
-- when we start the timer on one of the devices on the other, we can see the timer already running and its status. When the second device is not connected to the internet:
+ When the second device is not connected to the internet:
 - when it will connect to the internet, we compare the time on the timer and leave the one where more time has passed.
 
-**Technologies**
+To ensure partial autonomous operation of the scheduler, we will use PWA technology (we can local to cache data that`s need for offline work of app using Service Worker). 
 
-- React.js
+In offline mode, you will have access to view Existing Notes and a timer for Notes will be available. Also we can create new notes and when device will get access to internet new notes will be send on server.
+
+**Technologies**
+For implementation project we will use next technologies and instruments : 
+- React.js (front-end)
+- Redux
 - NestJS
 - Node.js
-- Redux
 - MS SQL
 
 **Mockups**
