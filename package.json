@@ -32,9 +32,10 @@
   },
   "lint-staged": {
     "*.{js, jsx}": [
-      "prettier --write",
-      "git add"
-    ]
+    "node_modules/.bin/eslint --max-warnings=0",
+    "prettier --write",
+    "git add"
+  ]
   },
   "dependencies": {
     "eslint-plugin-sonarjs": "^0.6.0",
