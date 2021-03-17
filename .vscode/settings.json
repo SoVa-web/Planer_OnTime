@@ -1,14 +1,12 @@
 {
     "eslint.workingDirectories": [
-        "../src",
+        "C:/Users/Suprun/Desktop/Проект/Planer_OnTime/src",
     ],
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
+   
     "eslint.validate": [
       "javascript"
     ],
-    "editor.formatOnPaste": false,
+    "editor.formatOnPaste": true,
 "editor.formatOnSave": true,
 "[javascript]": {
   "editor.formatOnSave": true
@@ -19,5 +17,8 @@
 "[json]": {
   "editor.formatOnSave": true
 },
-"eslint.alwaysShowStatus": true
+"eslint.alwaysShowStatus": true,
+"editor.codeActionsOnSave": {
+  "source.fixAll.eslint": true
+}
   }
