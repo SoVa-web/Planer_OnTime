@@ -1,0 +1,30 @@
+{
+  "name": "planner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*js": [
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/So1Va-web/Planer_OnTime.git"
+  },
+  "author": "Kulyk Andriy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/So1Va-web/Planer_OnTime/issues"
+  },
+  "homepage": "https://github.com/So1Va-web/Planer_OnTime#readme"
+}
