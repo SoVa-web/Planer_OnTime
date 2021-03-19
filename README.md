@@ -57,7 +57,7 @@ Page “Налаштування Pomo” contains Pomodoro settings.
 
 All data will be synchronized with server db.
 
-When we both devices are connected to the network :
+When we both devices are connected to the network:
 
 - when we start the timer on one of the devices on the other, we can see the timer already running and its status. When the second device is not connected to the internet:
 - when it will connect to the internet, we compare the time on the timer and leave the one where more time has passed.
