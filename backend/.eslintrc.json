@@ -5,8 +5,9 @@
         "node": true
     },
     "extends": [
-        "prettier",
-        "airbnb-base"
+       //"prettier",
+        "airbnb-base",
+        "../.eslintrc.json"
     ],
     "plugins": [
         "prettier"
@@ -15,10 +16,12 @@
         "ecmaVersion": 12
     },
     "rules": {
-        "prettier/prettier": "error",
+   //     "prettier/prettier": ["error", {"singleQuote": true}],
         "no-plusplus": "off",
         "no-tabs": "off",
         "no-alert": "off",
-        "no-unused-vars": "warn"
-      }
+        "no-unused-vars": "warn",
+        "max-len": ["error", { "code": 80 }],
+        "indent": ["off", "tab"]
+    }
 }
