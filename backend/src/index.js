@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const a = 1;
 
 function foo(name) {
@@ -23,3 +24,4 @@ const obj = {
 };
 
 const name1 = obj.name;
+console.log(name1);
