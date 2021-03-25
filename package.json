@@ -34,8 +34,7 @@
   "dependencies": {},
   "lint-staged": {
     "*.js": [
-      "npm run precommit",
-      "git add"
+      "npm run precommit"
     ]
   }
 }
