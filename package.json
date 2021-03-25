@@ -4,7 +4,7 @@
   "description": "**About**",
   "main": "index.js",
   "scripts": {
-    "precommit": "cd ./frontend && yarn lint && yarn lintfix && yarn format && yarn formatfix && cd ../backend && npm run lint && npm run lintfix && npm run format && npm run formatfix",
+    "precommit": "cd ./frontend && yarn format && yarn formatfix  && yarn lint && yarn lintfix && cd ../backend  && npm run format && npm run formatfix && npm run lint && npm run lintfix ",
     "test:frontend": "cd frontend && yarn test"
   },
   "repository": {

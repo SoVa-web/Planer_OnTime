@@ -16,14 +16,12 @@
     },
     "rules": {
         "linebreak-style": "off",
-        "semi": [
-            "error",
-            "always"
-          ],
+        "semi":"off",
         "no-unused-vars": "warn",
         "no-console": "off",
         "no-plusplus": "off",
-        "no-tabs": "off",
-        "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"]}]
+        "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"]}],
+        "object-curly-newline":"off",
+        "react/jsx-one-expression-per-line": "off"
     }
 }
