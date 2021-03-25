@@ -31,5 +31,11 @@
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "lint-staged": {
+    "*.js": [
+      "npm run precommit",
+      "git add"
+    ]
+  }
 }
