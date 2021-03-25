@@ -17,6 +17,7 @@
         "no-alert": "off",
         "no-unused-vars": "warn",
         "max-len": ["error", { "code": 80 }],
-        "indent": ["off", "tab"]
+        "indent": ["off", "tab"],
+        "operator-linebreak":"off"
     }
 }

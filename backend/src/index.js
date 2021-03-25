@@ -6,9 +6,10 @@ function foo(name) {
   return lastName;
 }
 
-const x = 'qqq qqq qqq qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'
-  + 'qqqqqqqqqqqqqqqqqqq'
-  + 'qqqqqqqqqqqqqq';
+const x =
+  'qqq qqq qqq qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq' +
+  'qqqqqqqqqqqqqqqqqqq' +
+  'qqqqqqqqqqqqqq';
 
 console.log(x, a);
 foo('Denis');
