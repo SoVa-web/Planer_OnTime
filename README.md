@@ -14,15 +14,16 @@ On Time is a planer with extra functions: pomodoro, data synchronization on diff
 
 Page “Сьогодні” contains tasks on current day and overdue tasks.
 
-Page “Тиждень” contains tasks on current week and overdue tasks.
+Page “Тиждень” contains tasks on current week .
 
 Page “Важливі” contains all tasks marked as important.
 
-Page “Справи” contains all tasks without date.
+Page “Справи” contains all tasks without date, overdue tasks, completed tasks(crossed and marked).
 
-Page “Заплановані” contains all tasks with and without date.
+Page “Заплановані” contains all tasks with date more than week.
 
 Personal list contains tasks that will be shown only in this list.
+
 
 1. Task:
 - Creation
