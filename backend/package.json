@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --max-warnings=0 ./",
-    "lintfix": "eslint --max-warnings=0 --fix ./"
+    "lintfix": "eslint --max-warnings=0 --fix ./",
+    "formatfix": "prettier --write ./",
+    "format": "prettier  ./"
   },
   "author": "Andrew",
   "license": "ISC",
