@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix --color",
-    "precommit": "cd ./frontend && yarn lint && cd ../backend && npm run lint"
+    "precommit": "cd ./frontend && yarn lint && cd ../backend && npm run lint",
+    "test:frontend": "cd frontend && yarn test"
   },
   "repository": {
     "type": "git",
