@@ -1,0 +1,8 @@
+*.json
+*.html
+*.css
+*.lock
+node_modules
+vs
+/.vs_code
+/.git

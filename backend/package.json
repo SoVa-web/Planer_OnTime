@@ -6,13 +6,14 @@
   "scripts": {
     "lint": "eslint --max-warnings=0 ./",
     "lintfix": "eslint --max-warnings=0 --fix ./",
-    "formatfix": "prettier --write ./",
-    "format": "prettier  ./"
+    "formatfix": "prettier --write **/*.{js,jsx}",
+    "format": "prettier  **/*.{js,jsx}"
   },
   "author": "Andrew",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^7.22.0",
-    "eslint-config-airbnb-base": "^14.2.1"
+    "eslint-config-airbnb-base": "^14.2.1",
+    "prettier": "^2.2.1"
   }
 }
