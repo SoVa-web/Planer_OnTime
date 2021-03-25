@@ -16,6 +16,10 @@
     },
     "rules": {
         "linebreak-style": "off",
+        "semi": [
+            "error",
+            "always"
+          ],
         "no-unused-vars": "warn",
         "no-console": "off",
         "no-plusplus": "off",

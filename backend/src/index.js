@@ -7,7 +7,7 @@ function foo(name) {
 }
 
 const x = 'qqq qqq qqq qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'
- + 'qqqqqqqqqqqqqqqqqqq'
+  + 'qqqqqqqqqqqqqqqqqqq'
   + 'qqqqqqqqqqqqqq';
 
 console.log(x, a);
