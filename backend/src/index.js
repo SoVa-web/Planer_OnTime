@@ -2,13 +2,13 @@
 const a = 1;
 
 function foo(name) {
-  const lastName = name;
-  return lastName;
+  const lastName = name
+  return lastName
 }
 
 const x = 'qqq qqq qqq qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'
  + 'qqqqqqqqqqqqqqqqqqq'
-  + 'qqqqqqqqqqqqqq';
+  + 'qqqqqqqqqqqqqq'
 
 console.log(x, a);
 foo('Denis');
