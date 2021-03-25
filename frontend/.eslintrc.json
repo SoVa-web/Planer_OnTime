@@ -1,0 +1,25 @@
+{
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "../.eslintrc.json"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 12
+    },
+    "plugins": [
+        "react"
+    ],
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "rules": {
+        "linebreak-style": "off",
+        "no-unused-vars": "warn",
+        "no-console": "off",
+        "no-plusplus": "off",
+        "no-tabs": "off",
+        "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"]}]
+    }
+}

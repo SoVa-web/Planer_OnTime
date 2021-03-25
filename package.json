@@ -1,0 +1,30 @@
+{
+  "name": "planer_ontime",
+  "version": "1.0.0",
+  "description": "**About**",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "cd ./frontend && yarn lint && cd ../backend && npm run lint",
+    "test:frontend": "cd frontend && yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoVa-web/Planer_OnTime.git"
+  },
+  "author": "Andriy Kulyk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SoVa-web/Planer_OnTime/issues"
+  },
+  "homepage": "https://github.com/SoVa-web/Planer_OnTime#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-testing-library": "^3.9.0",
+    "husky": "^4.3.8"
+  },
+  "dependencies": {}
+}

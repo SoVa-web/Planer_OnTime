@@ -1,0 +1,17 @@
+{
+  "name": "proj1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint1": "eslint ./src",
+    "lint:fix": "eslint ./src --fix --color",
+    "lint": "./node_modules/.bin/eslint --max-warnings=0 --fix ./"
+  },
+    "author": "Andrew",
+    "license": "ISC",
+    "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1"
+  }
+}
