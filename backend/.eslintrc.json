@@ -2,7 +2,8 @@
     "env": {
         "commonjs": true,
         "es2021": true,
-        "node": true
+        "node": true,
+        "jest": true
     },
     "extends": [
         "airbnb-base",
@@ -18,6 +19,7 @@
         "no-unused-vars": "warn",
         "max-len": ["error", { "code": 80 }],
         "indent": ["off", "tab"],
-        "operator-linebreak":"off"
+        "operator-linebreak":"off",
+        "linebreak-style": "off"
     }
 }
