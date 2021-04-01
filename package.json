@@ -4,8 +4,8 @@
   "description": "**About**",
   "main": "index.js",
   "scripts": {
-    "precommit": "cd ./frontend && yarn format && yarn formatfix  && yarn lint && yarn lintfix && cd ../backend  && npm run format && npm run formatfix && npm run lint && npm run lintfix ",
-    "test:frontend": "cd frontend && yarn test"
+    "precommit": "cd ./frontend && yarn format && yarn format:fix  && yarn lint && yarn lint:fix && cd ../backend  && npm run format && npm run format:fix && npm run lint && npm run lint:fix ",
+    "prepush": "cd ./frontend && yarn test && cd ../backend && npm run test "
   },
   "repository": {
     "type": "git",

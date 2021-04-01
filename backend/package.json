@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --max-warnings=0 ./",
-    "lintfix": "eslint --max-warnings=0 --fix ./",
-    "formatfix": "prettier --write **/*.{js,jsx}",
+    "lint:fix": "eslint --max-warnings=0 --fix ./",
+    "format:fix": "prettier --write **/*.{js,jsx}",
     "format": "prettier  **/*.{js,jsx}"
   },
   "author": "Andrew",
@@ -14,6 +14,7 @@
   "devDependencies": {
     "eslint": "^7.22.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1"
   }
 }
