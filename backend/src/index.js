@@ -14,6 +14,8 @@ const x =
 console.log(x, a);
 foo('Denis');
 
+const miu = 'miu';
+console.log(miu);
 const arrow = () => {
   console.log('arrow');
 };
