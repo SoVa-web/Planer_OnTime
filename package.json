@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
-    "request": "^2.88.2",
     "yarn": "^1.22.10"
   }
 }
