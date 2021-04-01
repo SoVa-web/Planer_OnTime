@@ -8,6 +8,7 @@
     "lint:fix": "eslint --max-warnings=0 --fix ./",
     "format:fix": "prettier --write **/*.{js,jsx}",
     "format": "prettier  **/*.{js,jsx}"
+
   },
   "author": "Andrew",
   "license": "ISC",
