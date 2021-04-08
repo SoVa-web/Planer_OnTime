@@ -4,8 +4,8 @@
   "description": "**About**",
   "main": "index.js",
   "scripts": {
-    "precommit": "cd ./frontend && yarn format && yarn format:fix  && yarn lint && yarn lint:fix && cd ../backend  && npm run format && npm run format:fix && npm run lint && npm run lint:fix ",
-    "prepush": "cd ./frontend && yarn test && cd ../backend && npm run test "
+    "precommit": " yarn --cwd frontend format && yarn --cwd frontend format:fix  && yarn --cwd frontend lint && yarn --cwd frontend lint:fix &&  npm run --prefix backend format && npm run --prefix backend format:fix && npm run --prefix backend lint && npm run --prefix backend lint:fix ",
+    "prepush": " yarn  --cwd frontend test &&  npm run --prefix backend test "
   },
   "repository": {
     "type": "git",
@@ -22,12 +22,15 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-sonarjs": "^0.6.0",
     "eslint-plugin-testing-library": "^3.9.0",
     "husky": "^4.3.8",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "sonarjs": "^1.0.0",
+    "yarn": "^1.22.10"
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
-    "yarn": "^1.22.10"
+    "cwd": "^0.10.0"
   }
 }

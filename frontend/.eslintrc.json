@@ -11,15 +11,10 @@
         "react"
     ],
     "env": {
-        "browser": true,
-        "es2021": true
+        "browser": true
     },
     "rules": {
-        "linebreak-style": "off",
         "semi":"off",
-        "no-unused-vars": "warn",
-        "no-console": "off",
-        "no-plusplus": "off",
         "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"]}],
         "object-curly-newline":"off",
         "react/jsx-one-expression-per-line": "off"
