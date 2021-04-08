@@ -1,7 +1,5 @@
 {
     "env": {
-        "commonjs": true,
-        "es2021": true,
         "node": true,
         "jest": true
     },
@@ -13,13 +11,10 @@
         "ecmaVersion": 12
     },
     "rules": {
-        "no-plusplus": "off",
         "no-tabs": "off",
         "no-alert": "off",
-        "no-unused-vars": "warn",
         "max-len": ["error", { "code": 80 }],
         "indent": ["off", "tab"],
-        "operator-linebreak":"off",
-        "linebreak-style": "off"
+        "operator-linebreak":"off"
     }
 }

@@ -2,7 +2,7 @@
 const a = 1;
 
 function foo(name) {
-  const lastName = name;
+  const lastName = name + 'a';
   return lastName;
 }
 
