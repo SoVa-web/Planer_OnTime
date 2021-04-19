@@ -20,8 +20,10 @@
   "devDependencies": {
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-sonarjs": "^0.6.0",
     "eslint-plugin-testing-library": "^3.9.0",
     "husky": "^4.3.8",
