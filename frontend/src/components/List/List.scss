@@ -1,0 +1,26 @@
+.list {
+    li {
+        display: flex;
+        align-items: center;
+        padding: 8px 20px;
+        cursor: pointer;
+        font-size: 17px;
+        font-weight: 600;
+        color: #3d3d3d;
+
+    &.active {
+      background: white;
+      box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    i {
+      width: 14px;
+      padding-top: 4.3px;
+      margin-right: 13px;
+    }
+
+    i img {
+      width: 16px;
+    }
+  }
+}   
