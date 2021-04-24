@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import './List.scss';
 
 import ListSvg from '../../assets/list.svg';
@@ -8,8 +9,9 @@ import StarSvg from '../../assets/star.svg';
 import HomeSvg from '../../assets/home.svg';
 import CalendarSvg from '../../assets/calendar.svg';
 import TomatoSvg from '../../assets/tomato.svg';
+import PlusSvg from '../../assets/plus.svg';
 
-export default function List({ items }) {
+export default function List({ items, onClick }) {
   function icons(item) {
     if (item.id === 1) return <img src={SunSvg} alt="icon" />;
     else if (item.id === 2) return <img src={WeekSvg} alt="icon" />;
@@ -17,13 +19,14 @@ export default function List({ items }) {
     else if (item.id === 4) return <img src={HomeSvg} alt="icon" />;
     else if (item.id === 5) return <img src={CalendarSvg} alt="icon" />;
     else if (item.id === 6) return <img src={TomatoSvg} alt="icon" />;
+    else if (item.id === 7) return <img src={PlusSvg} alt="icon" />;
 
     return <img src={ListSvg} alt="icon" />;
   }
   return (
-    <ul className="list">
+    <ul onClick={onClick} className="list">
       {items.map((item) => (
-        <li key={item.id}>
+        <li key={item.id} className={classNames({ active: item.active })}>
           <i>{icons(item)}</i>
           <span>{item.name}</span>
         </li>
