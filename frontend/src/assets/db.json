@@ -1,0 +1,16 @@
+{
+    "lists": [
+        {
+            "id": 11,
+            "name": "Workout"
+        },
+        {
+            "id": 12,
+            "name": "Men's physique"
+        },
+        {
+            "id": 13,
+            "name": "English"
+        }
+    ]
+}

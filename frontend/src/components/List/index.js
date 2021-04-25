@@ -10,8 +10,9 @@ import HomeSvg from '../../assets/home.svg';
 import CalendarSvg from '../../assets/calendar.svg';
 import TomatoSvg from '../../assets/tomato.svg';
 import PlusSvg from '../../assets/plus.svg';
+import RemoveSVg from '../../assets/delete.svg';
 
-export default function List({ items, onClick }) {
+export default function List({ items, onClick, isRemovable, onRemove }) {
   function icons(item) {
     if (item.id === 1) return <img src={SunSvg} alt="icon" />;
     else if (item.id === 2) return <img src={WeekSvg} alt="icon" />;
@@ -23,12 +24,29 @@ export default function List({ items, onClick }) {
 
     return <img src={ListSvg} alt="icon" />;
   }
+
+  function removeConf(item) {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(`Do you really want to delete list ${item.name}?`))
+      onRemove(item);
+  }
+
   return (
     <ul onClick={onClick} className="list">
       {items.map((item) => (
         <li key={item.id} className={classNames({ active: item.active })}>
           <i>{icons(item)}</i>
           <span>{item.name}</span>
+          {isRemovable && (
+            <i>
+              <img
+                src={RemoveSVg}
+                onClick={() => removeConf(item)}
+                alt="remove"
+                className="remove-list"
+              />
+            </i>
+          )}
         </li>
       ))}
     </ul>
