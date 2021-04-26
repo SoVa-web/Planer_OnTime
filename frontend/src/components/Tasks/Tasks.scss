@@ -1,0 +1,53 @@
+.tasks {
+    &__title {
+        font-weight: 700;
+        font-size: 28px;
+        color: #2f2f2f;
+        padding-bottom: 13px;
+        border-bottom: 1px solid;
+    }
+
+    &__items {
+        &_item {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+        }
+
+        input {
+            font-weight: 630;
+            font-size: 16px;
+            color: #3d3d3d;
+            margin-left: 9px;
+            border: none;
+        }
+    }
+
+    .checkbox {
+
+        input {
+            display: none;
+        }
+        label {
+            border: 2px solid #6839a7;
+            width: 16px;
+            height: 16px;
+            border-radius: 30px;
+            display: flex;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input:checked + label {
+            img{
+                opacity: 1;
+            }
+        }
+
+        img {
+            width: 20px;
+            opacity: 0;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import List from './components/List';
 import AddList from './components/AddList';
+import Tasks from './components/Tasks';
 import Db from './assets/db.json';
 
 const categ = [
@@ -42,7 +43,9 @@ function App() {
         <List items={lists} isRemovable={isRemovable} onRemove={onRemove} />
         <AddList onSave={onSaveList} />
       </div>
-      <div className="planner__content"> </div>
+      <div className="planner__content">
+        <Tasks />
+      </div>
     </div>
   );
 }

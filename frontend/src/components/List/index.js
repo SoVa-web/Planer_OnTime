@@ -14,15 +14,24 @@ import RemoveSVg from '../../assets/delete.svg';
 
 export default function List({ items, onClick, isRemovable, onRemove }) {
   function icons(item) {
-    if (item.id === 1) return <img src={SunSvg} alt="icon" />;
-    else if (item.id === 2) return <img src={WeekSvg} alt="icon" />;
-    else if (item.id === 3) return <img src={StarSvg} alt="icon" />;
-    else if (item.id === 4) return <img src={HomeSvg} alt="icon" />;
-    else if (item.id === 5) return <img src={CalendarSvg} alt="icon" />;
-    else if (item.id === 6) return <img src={TomatoSvg} alt="icon" />;
-    else if (item.id === 7) return <img src={PlusSvg} alt="icon" />;
-
-    return <img src={ListSvg} alt="icon" />;
+    switch (item.id) {
+      case 1:
+        return <img src={SunSvg} alt="icon" />;
+      case 2:
+        return <img src={WeekSvg} alt="icon" />;
+      case 3:
+        return <img src={StarSvg} alt="icon" />;
+      case 4:
+        return <img src={HomeSvg} alt="icon" />;
+      case 5:
+        return <img src={CalendarSvg} alt="icon" />;
+      case 6:
+        return <img src={TomatoSvg} alt="icon" />;
+      case 7:
+        return <img src={PlusSvg} alt="icon" />;
+      default:
+        return <img src={ListSvg} alt="icon" />;
+    }
   }
 
   function removeConf(item) {
