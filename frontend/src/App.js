@@ -1,8 +1,7 @@
 import React from 'react';
-import List from './components/List';
-import AddList from './components/AddList';
-import Tasks from './components/Tasks';
-import Db from './assets/db.json';
+import axios from 'axios';
+import { List, AddList, Tasks } from './components';
+// import Db from './assets/db.json';
 
 const categ = [
   { id: 1, name: 'Сьогодні', active: false },
@@ -20,19 +19,28 @@ const lists1 = [
 ];
 
 function App() {
-  const [lists, setLists] = React.useState(Db.lists);
-
+  const [lists, setLists] = React.useState([]);
   const isRemovable = true;
+  function getData() {
+    axios
+      .get('http://localhost:3001/lists?_embed=tasks')
+      .then(({ data }) => setLists(data));
+    console.log('Aga');
+  }
+
+  React.useEffect(getData, []);
 
   function onSaveList(obj) {
+    console.log(lists);
+    console.log(obj);
     const newLists = [...lists, obj];
-    console.log(newLists);
+    // console.log(newLists);
     setLists(newLists);
   }
 
   function onRemove(item) {
     const newLists = lists.filter((ll) => ll.id !== item.id);
-    console.log(newLists);
+    // console.log(newLists);
     setLists(newLists);
   }
   return (
@@ -44,7 +52,7 @@ function App() {
         <AddList onSave={onSaveList} />
       </div>
       <div className="planner__content">
-        <Tasks />
+        {lists[1] && <Tasks list={lists[1]} />}
       </div>
     </div>
   );

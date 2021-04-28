@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import './List.scss';
+import axios from 'axios';
 
 import ListSvg from '../../assets/list.svg';
 import SunSvg from '../../assets/sun.svg';
@@ -37,7 +38,9 @@ export default function List({ items, onClick, isRemovable, onRemove }) {
   function removeConf(item) {
     // eslint-disable-next-line no-alert
     if (window.confirm(`Do you really want to delete list ${item.name}?`))
-      onRemove(item);
+      axios.delete('http://localhost:3001/lists/' + item.id).then(() => {
+        onRemove(item);
+      });
   }
 
   return (

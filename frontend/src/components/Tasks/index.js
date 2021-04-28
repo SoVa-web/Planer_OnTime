@@ -4,20 +4,23 @@ import './Tasks.scss';
 
 import CheckSvg from '../../assets/check.svg';
 
-export default function Tasks() {
+export default function Tasks({ list }) {
   return (
     <div className="tasks">
-      <h1 className="tasks__title">Men`s physique</h1>
+      <h1 className="tasks__title">{list.name}</h1>
+      {console.log(list)}
       <div className="tasks__items">
-        <div className="tasks__items_item">
-          <div className="checkbox">
-            <input id="done" type="checkbox" />
-            <label htmlFor="done">
-              <img alt="done" src={CheckSvg} />
-            </label>
+        {list.tasks.map((item) => (
+          <div key={item.id} className="tasks__items_item">
+            <div className="checkbox">
+              <input id={`done${item.id}`} type="checkbox" />
+              <label htmlFor={`done${item.id}`}>
+                <img alt="done" src={CheckSvg} />
+              </label>
+            </div>
+            <input value={item.title} />
           </div>
-          <input value="Hello from California" />
-        </div>
+        ))}
       </div>
     </div>
   );

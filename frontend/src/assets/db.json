@@ -1,16 +1,78 @@
 {
-    "lists": [
-        {
-            "id": 11,
-            "name": "Workout"
-        },
-        {
-            "id": 12,
-            "name": "Men's physique"
-        },
-        {
-            "id": 13,
-            "name": "English"
-        }
-    ]
+  "lists": [
+    {
+      "id": 11,
+      "name": "Workout"
+    },
+    {
+      "id": 12,
+      "name": "Men's physique"
+    },
+    {
+      "id": 13,
+      "name": "English"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "listId": 12,
+      "title": "Hello from California!",
+      "completed": "false"
+    },
+    {
+      "id": 23,
+      "listId": 12,
+      "title": "photo session near Hollywood",
+      "completed": "true"
+    },
+    {
+      "id": 19,
+      "listId": 12,
+      "title": "surfing",
+      "completed": "false"
+    },
+    {
+      "id": 81,
+      "listId": 12,
+      "title": "training in Gold's gym",
+      "completed": "false"
+    },
+    {
+      "id": 32,
+      "listId": 13,
+      "title": "Watch movie",
+      "completed": "false"
+    },
+    {
+      "id": 14,
+      "listId": 12,
+      "title": "meet Igor Voitenko",
+      "completed": "true"
+    },
+    {
+      "id": 6,
+      "listId": 13,
+      "title": "complete B2 test",
+      "completed": "false"
+    },
+    {
+      "id": 29,
+      "listId": 13,
+      "title": "take a trip to England",
+      "completed": "false"
+    },
+    {
+      "id": 33,
+      "listId": 11,
+      "title": "front lever 10s",
+      "completed": "false"
+    },
+    {
+      "id": 18,
+      "listId": 11,
+      "title": "10 musle-ups",
+      "completed": "false"
+    }
+  ]
 }

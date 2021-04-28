@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import List from '../List';
 
 import './AddList.scss';
@@ -11,7 +13,12 @@ export default function AddList({ onSave }) {
   const [inputValue, setInputValue] = React.useState('');
 
   function saveList() {
-    if (inputValue) onSave({ id: Math.random(), name: inputValue });
+    if (inputValue)
+      axios
+        .post('http://localhost:3001/lists', { name: inputValue })
+        .then(({ data }) => {
+          onSave(data);
+        });
     setVisibility(false);
     setInputValue('');
   }
