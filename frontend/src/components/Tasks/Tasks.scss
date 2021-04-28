@@ -1,10 +1,31 @@
 .tasks {
     &__title {
-        font-weight: 700;
-        font-size: 28px;
-        color: #2f2f2f;
-        padding-bottom: 13px;
+        display: flex;
         border-bottom: 1px solid;
+        img {
+            width: 18px;
+            margin-left: 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: 28px;
+            color: #2f2f2f;
+            padding-bottom: 13px;
+        }
+    }
+
+    &__title:hover {
+        img {
+            opacity: 0.6;
+        }
+        
+        img:hover {
+            opacity: 0.9;
+        }
     }
 
     &__items {

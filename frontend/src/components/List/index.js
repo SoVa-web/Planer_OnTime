@@ -13,7 +13,14 @@ import TomatoSvg from '../../assets/tomato.svg';
 import PlusSvg from '../../assets/plus.svg';
 import RemoveSVg from '../../assets/delete.svg';
 
-export default function List({ items, onClick, isRemovable, onRemove }) {
+export default function List({
+  items,
+  onClick,
+  onClickList,
+  isRemovable,
+  onRemove,
+  selectedList,
+}) {
   function icons(item) {
     switch (item.id) {
       case 1:
@@ -46,9 +53,18 @@ export default function List({ items, onClick, isRemovable, onRemove }) {
   return (
     <ul onClick={onClick} className="list">
       {items.map((item) => (
-        <li key={item.id} className={classNames({ active: item.active })}>
+        <li
+          key={item.id}
+          className={classNames({
+            active: selectedList && selectedList.id === item.id,
+          })}
+          onClick={onClickList ? () => onClickList(item) : null}
+        >
           <i>{icons(item)}</i>
-          <span>{item.name}</span>
+          <span>
+            {item.name}
+            {item.tasks && item.tasks.length > 0 && ` ${item.tasks.length}`}
+          </span>
           {isRemovable && (
             <i>
               <img
