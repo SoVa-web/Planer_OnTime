@@ -56,7 +56,9 @@ export default function List({
         <li
           key={item.id}
           className={classNames({
-            active: selectedList && selectedList.id === item.id,
+            active: item.selected
+              ? true
+              : selectedList && selectedList.id === item.id,
           })}
           onClick={onClickList ? () => onClickList(item) : null}
         >

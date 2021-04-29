@@ -1,0 +1,32 @@
+.addTask {
+    &__newTask {
+        display: flex;
+        margin-top: 10px;
+        opacity: 0.6;
+        cursor: pointer;
+
+
+        img {
+            width: 14px;
+            margin-left: 3.7px;
+            margin-top: 1.5px;
+        }
+
+        span {
+            font-size: 16px;
+            margin-left: 14px;
+            font-weight: 600;
+        }
+    }
+
+    &__newTask:hover {
+        opacity: 0.8;
+    }
+
+    &__form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        padding: 0px 50px;
+    }
+}

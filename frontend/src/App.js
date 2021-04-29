@@ -5,7 +5,7 @@ import { List, AddList, Tasks } from './components';
 
 const categ = [
   { id: 1, name: 'Сьогодні', selected: false },
-  { id: 2, name: 'Тиждень', selected: true },
+  { id: 2, name: 'Тиждень', selected: false },
   { id: 3, name: 'Важливі', selected: false },
   { id: 4, name: 'Справи', selected: false },
   { id: 5, name: 'Заплановані', selected: false },
@@ -57,6 +57,18 @@ function App() {
     setLists(newLists);
   }
 
+  function onAddTask(listId, task) {
+    const newLists = lists.map((oneList) => {
+      if (oneList.id === listId) {
+        const newList = oneList;
+        newList.tasks = [...oneList.tasks, task];
+        return newList;
+      }
+      return oneList;
+    });
+    setLists(newLists);
+  }
+
   return (
     <div className="planner">
       <div className="planner__sidebar">
@@ -81,7 +93,11 @@ function App() {
       <div className="planner__content">
         {console.log(selectedList)}
         {lists[2] && selectedList && (
-          <Tasks list={selectedList} onChangeTitle={onChangeTitleInList} />
+          <Tasks
+            list={selectedList}
+            onChangeTitle={onChangeTitleInList}
+            onAddTask={onAddTask}
+          />
         )}
       </div>
     </div>

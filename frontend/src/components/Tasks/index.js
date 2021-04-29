@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import axios from 'axios';
+import AddTask from '../AddTask';
 import './Tasks.scss';
 
 import CheckSvg from '../../assets/check.svg';
 import EditSvg from '../../assets/edit.svg';
 
-export default function Tasks({ list, onChangeTitle }) {
+export default function Tasks({ list, onChangeTitle, onAddTask }) {
   const changeTitle = () => {
     // eslint-disable-next-line no-alert
     const newTitle = window.prompt('Title name', list.name);
@@ -37,6 +38,7 @@ export default function Tasks({ list, onChangeTitle }) {
             <input value={item.title} />
           </div>
         ))}
+        <AddTask onAddTask={onAddTask} list={list} />
       </div>
     </div>
   );

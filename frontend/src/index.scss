@@ -59,11 +59,25 @@ body {
   padding: 10px 20px;
   cursor: pointer;
 
+  &-cancel {
+    background: #cbcbcb;
+    color: #3f3f3f;
+    font-weight: 600;
+  }
+
   &:hover {
     background-color: rgb(54, 10, 45);
   }
 
   &:active {
     background-color: rgb(43, 9, 36);
+  }
+
+  &-cancel:hover {
+    background: #bdbcbc;
+  }
+
+  &-cancel:active {
+    background: #a3a2a2;
   }
 }
