@@ -32,6 +32,7 @@ export default function Tasks({
     console.log(task, event.target.checked);
     axios.patch('http://localhost:3001/tasks/' + task.id, {
       completed: event.target.checked,
+      compDate: Number(new Date().setHours(0, 0, 0, 0)),
     });
     onChangeCompTask(task, event.target.checked);
   }
@@ -44,38 +45,42 @@ export default function Tasks({
       </div>
       <div className="tasks__items">
         {list.tasks &&
-          list.tasks.map((item) => (
-            <div key={item.id} className="tasks__items_item">
-              <div className="checkbox">
-                <input
-                  id={`done${item.id}`}
-                  type="checkbox"
-                  onChange={(event) => onChangeCompStatus(event, item)}
-                  checked={item.completed}
-                />
-                <label htmlFor={`done${item.id}`}>
-                  <img alt="done" src={CheckSvg} />
-                </label>
-              </div>
-              <div className="task">
-                <p>{item.title}</p>
-                <div className="task__icons">
-                  <img
-                    alt="edit"
-                    src={Edit2Svg}
-                    className="task-img"
-                    onClick={() => onEditTask(item)}
+          list.tasks.map((item) =>
+            !item.deleteDate ? (
+              <div key={item.id} className="tasks__items_item">
+                <div className="checkbox">
+                  <input
+                    id={`done${item.id}`}
+                    type="checkbox"
+                    onChange={(event) => onChangeCompStatus(event, item)}
+                    checked={item.completed}
                   />
-                  <img
-                    alt="delete"
-                    src={DeleteSvg}
-                    className="task-img"
-                    onClick={() => onRemoveTask(item)}
-                  />
+                  <label htmlFor={`done${item.id}`}>
+                    <img alt="done" src={CheckSvg} />
+                  </label>
+                </div>
+                <div className="task">
+                  <p>{item.title}</p>
+                  <div className="task__icons">
+                    <img
+                      alt="edit"
+                      src={Edit2Svg}
+                      className="task-img"
+                      onClick={() => onEditTask(item)}
+                    />
+                    <img
+                      alt="delete"
+                      src={DeleteSvg}
+                      className="task-img"
+                      onClick={() => onRemoveTask(item)}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ) : (
+              <></>
+            ),
+          )}
         <AddTask key={list.id} onAddTask={onAddTask} list={list} />
       </div>
     </div>

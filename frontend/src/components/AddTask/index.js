@@ -15,15 +15,26 @@ export default function AddTask({ onAddTask, list }) {
   }
 
   function saveTask() {
+    let today = new Date();
+    today = Number(today.setHours(0, 0, 0, 0));
+
+    const expDate = today + 24 * 3600 * 1000;
+    const imp = false;
+
     const newTask = {
       listId: list.id,
       title: inputTitle,
+      creationDate: today,
+      deadline: expDate,
+      compDate: null,
+      important: imp,
       completed: false,
+      deleteDate: null,
     };
+
     if (inputTitle.length)
       axios.post('http://localhost:3001/tasks', newTask).then((savedTask) => {
         onAddTask(list.id, savedTask.data);
-        console.log(savedTask.data);
         setFormVisibility(!isVisibleForm);
         setInputTitle('');
       });

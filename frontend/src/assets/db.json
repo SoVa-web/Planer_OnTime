@@ -22,67 +22,133 @@
       "id": 1,
       "listId": 12,
       "title": "Hello from California!",
-      "completed": "false"
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
+      "completed": true,
+      "deleteDate": null
     },
     {
       "id": 23,
       "listId": 12,
       "title": "photo session near Hollywood",
-      "completed": false
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
+      "completed": false,
+      "deleteDate": null
     },
     {
       "id": 19,
       "listId": 12,
       "title": "surfing",
-      "completed": false
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
+      "completed": false,
+      "deleteDate": null
     },
     {
       "id": 81,
       "listId": 12,
       "title": "training in Gold's gym",
-      "completed": "false"
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
+      "completed": true,
+      "deleteDate": null
     },
     {
       "id": 14,
       "listId": 12,
       "title": "meet Igor Voitenko",
-      "completed": "true"
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
+      "completed": false,
+      "deleteDate": null
     },
     {
       "id": 33,
       "listId": 11,
       "title": "front lever 10s",
-      "completed": "false"
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
+      "completed": false,
+      "deleteDate": null
     },
     {
       "id": 18,
       "listId": 11,
       "title": "10 musle-ups",
-      "completed": "false"
-    },
-    {
-      "listId": 14,
-      "title": "Hi",
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
       "completed": true,
-      "id": 82
+      "deleteDate": null
     },
     {
+      "id": 83,
       "listId": 14,
       "title": "Privet",
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": 1620594000000,
+      "important": false,
+      "completed": true,
+      "deleteDate": null
+    },
+    {
+      "id": 86,
+      "listId": 13,
+      "title": "jj",
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
       "completed": false,
-      "id": 83
+      "deleteDate": null
     },
     {
       "listId": 14,
-      "title": "Cool",
+      "title": "New task cool",
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
       "completed": true,
-      "id": 84
+      "deleteDate": 1620594000000,
+      "id": 87
     },
     {
-      "listId": 13,
-      "title": "jj",
+      "listId": 14,
+      "title": "New edit title",
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": 1620594000000,
+      "important": false,
       "completed": false,
-      "id": 86
+      "deleteDate": null,
+      "id": 88
+    },
+    {
+      "listId": 14,
+      "title": "jkjkjkjkj",
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": null,
+      "important": false,
+      "completed": true,
+      "deleteDate": 1620594000000,
+      "id": 89
     }
   ]
 }

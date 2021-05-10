@@ -78,10 +78,15 @@ function App() {
   }
 
   function onRemoveTask(task) {
-    axios
-      .delete('http://localhost:3001/tasks/' + task.id)
-      .then(() => getData());
-    console.log(task.id);
+    const path = 'http://localhost:3001/tasks/' + task.id;
+    if (!task.completed) {
+      axios.delete(path).then(() => getData());
+      console.log(task.id);
+    } else {
+      axios
+        .patch(path, { deleteDate: Number(new Date().setHours(0, 0, 0, 0)) })
+        .then(() => getData());
+    }
   }
 
   function onEditTask(task) {
