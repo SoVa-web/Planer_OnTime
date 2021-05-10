@@ -13,7 +13,7 @@
       "name": "English"
     },
     {
-      "name": "Hello",
+      "name": "Hello8",
       "id": 14
     }
   ],
@@ -28,13 +28,13 @@
       "id": 23,
       "listId": 12,
       "title": "photo session near Hollywood",
-      "completed": "true"
+      "completed": false
     },
     {
       "id": 19,
       "listId": 12,
       "title": "surfing",
-      "completed": "false"
+      "completed": false
     },
     {
       "id": 81,
@@ -43,28 +43,10 @@
       "completed": "false"
     },
     {
-      "id": 32,
-      "listId": 13,
-      "title": "Watch movie",
-      "completed": "false"
-    },
-    {
       "id": 14,
       "listId": 12,
       "title": "meet Igor Voitenko",
       "completed": "true"
-    },
-    {
-      "id": 6,
-      "listId": 13,
-      "title": "complete B2 test",
-      "completed": "false"
-    },
-    {
-      "id": 29,
-      "listId": 13,
-      "title": "take a trip to England",
-      "completed": "false"
     },
     {
       "id": 33,
@@ -79,40 +61,28 @@
       "completed": "false"
     },
     {
-      "listId": 13,
-      "title": "buy Penny Board",
-      "completed": false,
+      "listId": 14,
+      "title": "Hi",
+      "completed": true,
       "id": 82
     },
     {
       "listId": 14,
-      "title": "jkj",
+      "title": "Privet",
       "completed": false,
       "id": 83
     },
     {
       "listId": 14,
-      "title": "kjkjjjj",
-      "completed": false,
+      "title": "Cool",
+      "completed": true,
       "id": 84
     },
     {
-      "listId": 14,
-      "title": "jjjjj",
-      "completed": false,
-      "id": 85
-    },
-    {
-      "listId": 14,
-      "title": "ggggggggggg",
+      "listId": 13,
+      "title": "jj",
       "completed": false,
       "id": 86
-    },
-    {
-      "listId": 13,
-      "title": "gdg",
-      "completed": false,
-      "id": 87
     }
   ]
 }

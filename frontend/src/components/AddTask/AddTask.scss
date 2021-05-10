@@ -1,4 +1,7 @@
 .addTask {
+
+    margin: 20px 10px;
+
     &__newTask {
         display: flex;
         margin-top: 10px;
@@ -23,10 +26,18 @@
         opacity: 0.8;
     }
 
+    &__container {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid gray;
+        margin: 10px 0px;
+        padding: 9px 10px;
+        border-radius: 10px;
+    }
+
     &__form {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px;
-        padding: 0px 50px;
     }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { List, AddList, Tasks } from './components';
 // import Db from './assets/db.json';
 
@@ -22,25 +23,32 @@ function App() {
   const [lists, setLists] = React.useState([]);
   const [selectedList, setSelectedList] = React.useState(null);
   const isRemovable = true;
+  const listsHistory = useHistory();
 
   function getData() {
     axios
       .get('http://localhost:3001/lists?_embed=tasks')
       .then(({ data }) => setLists(data));
-    console.log('Aga');
   }
 
   React.useEffect(getData, []);
 
+  React.useEffect(() => {
+    const pathId = Number(listsHistory.location.pathname.split('lists/')[1]);
+    if (lists) {
+      const selList = lists.find((item) => item.id === pathId);
+      setSelectedList(selList);
+      console.log(listsHistory);
+    }
+  }, [listsHistory.location.pathname, lists]);
+
   function onSaveList(obj) {
     const newLists = [...lists, obj];
-    // console.log(newLists);
     setLists(newLists);
   }
 
   function onRemove(item) {
     const newLists = lists.filter((ll) => ll.id !== item.id);
-    // console.log(newLists);
     setLists(newLists);
   }
 
@@ -69,6 +77,42 @@ function App() {
     setLists(newLists);
   }
 
+  function onRemoveTask(task) {
+    axios
+      .delete('http://localhost:3001/tasks/' + task.id)
+      .then(() => getData());
+    console.log(task.id);
+  }
+
+  function onEditTask(task) {
+    // eslint-disable-next-line no-alert
+    const editTitle = prompt('task title', task.title);
+
+    if (editTitle && editTitle !== task.title) {
+      axios
+        .patch('http://localhost:3001/tasks/' + task.id, { title: editTitle })
+        .then(() => getData());
+    }
+  }
+
+  function onChangeCompTask(task, completed) {
+    const compList = lists.map((list) => {
+      if (list.id === task.listId) {
+        const newList = list;
+        newList.tasks = list.tasks.map((oldTask) => {
+          if (oldTask.id === task.id) {
+            const newTask = oldTask;
+            newTask.completed = completed;
+            return newTask;
+          }
+          return oldTask;
+        });
+      }
+      return list;
+    });
+    setLists(compList);
+  }
+
   return (
     <div className="planner">
       <div className="planner__sidebar">
@@ -84,6 +128,7 @@ function App() {
           isRemovable={isRemovable}
           onRemove={onRemove}
           onClickList={(selList) => {
+            listsHistory.push('/lists/' + selList.id);
             setSelectedList(selList);
           }}
           selectedList={selectedList}
@@ -97,6 +142,9 @@ function App() {
             list={selectedList}
             onChangeTitle={onChangeTitleInList}
             onAddTask={onAddTask}
+            onRemoveTask={onRemoveTask}
+            onEditTask={onEditTask}
+            onChangeCompTask={onChangeCompTask}
           />
         )}
       </div>

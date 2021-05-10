@@ -17,7 +17,9 @@ export default function AddList({ onSave }) {
       axios
         .post('http://localhost:3001/lists', { name: inputValue })
         .then(({ data }) => {
-          onSave(data);
+          const newData = { ...data, tasks: [] };
+          console.log(data, newData);
+          onSave(newData);
         });
     setVisibility(false);
     setInputValue('');

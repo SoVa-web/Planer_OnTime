@@ -20,13 +20,13 @@ export default function AddTask({ onAddTask, list }) {
       title: inputTitle,
       completed: false,
     };
-
-    axios.post('http://localhost:3001/tasks', newTask).then((savedTask) => {
-      onAddTask(list.id, savedTask.data);
-      console.log(savedTask.data);
-      setFormVisibility(!isVisibleForm);
-      setInputTitle('');
-    });
+    if (inputTitle.length)
+      axios.post('http://localhost:3001/tasks', newTask).then((savedTask) => {
+        onAddTask(list.id, savedTask.data);
+        console.log(savedTask.data);
+        setFormVisibility(!isVisibleForm);
+        setInputTitle('');
+      });
   }
 
   return (
@@ -38,7 +38,7 @@ export default function AddTask({ onAddTask, list }) {
           <span>New task</span>
         </div>
       ) : (
-        <div>
+        <div className="addTask__container">
           <input
             type="text"
             placeholder="List Name"
