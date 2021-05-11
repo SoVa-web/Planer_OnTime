@@ -13,7 +13,7 @@
       "name": "English"
     },
     {
-      "name": "Hello8",
+      "name": "Hello",
       "id": 14
     }
   ],
@@ -57,7 +57,7 @@
       "title": "training in Gold's gym",
       "creationDate": 1620594000000,
       "deadline": 1620680400000,
-      "compDate": null,
+      "compDate": 1620680400000,
       "important": false,
       "completed": true,
       "deleteDate": null
@@ -79,7 +79,7 @@
       "title": "front lever 10s",
       "creationDate": 1620594000000,
       "deadline": 1620680400000,
-      "compDate": null,
+      "compDate": 1620594000000,
       "important": false,
       "completed": false,
       "deleteDate": null
@@ -90,9 +90,9 @@
       "title": "10 musle-ups",
       "creationDate": 1620594000000,
       "deadline": 1620680400000,
-      "compDate": null,
+      "compDate": 1620594000000,
       "important": false,
-      "completed": true,
+      "completed": false,
       "deleteDate": null
     },
     {
@@ -104,7 +104,7 @@
       "compDate": 1620594000000,
       "important": false,
       "completed": true,
-      "deleteDate": null
+      "deleteDate": 1620594000000
     },
     {
       "id": 86,
@@ -133,9 +133,9 @@
       "title": "New edit title",
       "creationDate": 1620594000000,
       "deadline": 1620680400000,
-      "compDate": 1620594000000,
+      "compDate": 1620680400000,
       "important": false,
-      "completed": false,
+      "completed": true,
       "deleteDate": null,
       "id": 88
     },
@@ -149,6 +149,17 @@
       "completed": true,
       "deleteDate": 1620594000000,
       "id": 89
+    },
+    {
+      "listId": 14,
+      "title": "Заметка",
+      "creationDate": 1620594000000,
+      "deadline": 1620680400000,
+      "compDate": 1620680400000,
+      "important": false,
+      "completed": false,
+      "deleteDate": null,
+      "id": 90
     }
   ]
 }

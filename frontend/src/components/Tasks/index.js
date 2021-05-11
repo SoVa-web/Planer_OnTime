@@ -74,6 +74,7 @@ export default function Tasks({
                       className="task-img"
                       onClick={() => onRemoveTask(item)}
                     />
+                    <div className="important-img" />
                   </div>
                 </div>
               </div>

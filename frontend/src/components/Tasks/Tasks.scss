@@ -81,7 +81,7 @@
         display: flex;
     }
 
-    img {
+    img, .important-img {
             width: 18px;
             margin-left: 8px;
             opacity: 0;
@@ -89,13 +89,17 @@
     }
 
     &:hover {
-        img {
+        img, .important-img {
             opacity: 0.7;
         }
 
-        img:hover {
+        img:hover, .important-img{
             opacity: 1;
         }
+    }
+
+    .important-img {
+        mask-image: url("../../assets/star.svg");
     }
 }
 }
