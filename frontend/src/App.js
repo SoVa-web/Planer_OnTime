@@ -1,38 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import Context from './context';
-import {
-  List,
-  // BaseList,
-  AddList,
-  Content,
-} from './components';
-// import Db from './assets/db.json';
-
-/*
-const categ = [
-  { id: 1, name: 'Today', tasks: [] },
-  { id: 2, name: 'Week', tasks: [] },
-  { id: 3, name: 'Important', tasks: [] },
-  { id: 4, name: 'Affairs', tasks: [] },
-  { id: 5, name: 'Planned', tasks: [] },
-  { id: 6, name: 'Pomodoro', tasks: [] },
-];
-*/
-// eslint-disable-next-line no-unused-vars
-const lists1 = [
-  { id: 8, name: 'Workout' },
-  { id: 9, name: 'Endglish' },
-];
+import { List, AddList, Content } from './components';
 
 function App() {
   const [lists, setLists] = React.useState([]);
-  // const [baseLists, setBaseLists] = React.useState(categ);
-  // eslint-disable-next-line no-unused-vars
   const [selectedList, setSelectedList] = React.useState(null);
   const [isVisibleForm, setFormVisibility] = React.useState(false);
   const isRemovable = true;
-  // const listsHistory = useHistory();
 
   function getData() {
     axios
@@ -41,16 +16,6 @@ function App() {
   }
 
   React.useEffect(getData, []);
-
-  /* React.useEffect(() => {
-    const pathId = Number(listsHistory.location.pathname.split('lists/')[1]);
-    if (lists) {
-      const selList = lists.find((item) => item.id === pathId);
-      setSelectedList(selList);
-      console.log(listsHistory);
-    }
-  }, [listsHistory.location.pathname, lists]);
-*/
 
   function onSaveList(obj) {
     const newLists = [...lists, obj];
@@ -159,30 +124,6 @@ function App() {
     >
       <div className="planner">
         <div className="planner__sidebar">
-          {/*
-          <List
-          items={categ}
-          onClickList={(selList) => {
-            listsHistory.push('/lists/' + selList.id);
-            setSelectedList(selList);
-          }}
-        
-        />
-          */
-          /* 
-          <BaseList
-          items={lists}
-          isBase
-          onClickList={(selList) => {
-            console.log('now last', selList)
-          }}
-          selectedList={selectedList}
-        />
-        
-        <hr /> 
-        }
-        */}
-
           <List
             lists={lists}
             selectedList={selectedList}

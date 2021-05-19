@@ -23,6 +23,7 @@
         "no-unused-vars": "warn",
         "prefer-template":"off",
         "sonarjs/prefer-immediate-return":"off",
+        "no-param-reassign": "off",
         "no-else-return": "off"
     }
 }

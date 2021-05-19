@@ -1,12 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
-// import List from '../List';
-
 import './AddList.scss';
 import CancelSvg from '../../assets/cancel.svg';
-
-// const defaultName = [{ id: 7, name: 'Add list' }];
 
 export default function AddList({ onSave, isVisible, setVisibility }) {
   // const [isVisible, setVisibility] = React.useState(false);

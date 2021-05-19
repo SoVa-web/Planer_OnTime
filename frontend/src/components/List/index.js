@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import classNames from 'classnames';
 import './List.scss';
@@ -20,7 +19,6 @@ import RemoveSVg from '../../assets/delete.svg';
 export default function List({
   lists,
   onClickList,
-  isRemovable,
   onRemove,
   selectedList,
   changeFormVisibility,
@@ -95,174 +93,134 @@ export default function List({
   }
 
   return (
-    <>
-      {/*
-    <ul className="list">
-      {lists.map((item) => (
-        item.name !== 'Base' ? (
+    <nav>
+      <ul className="list">
+        <Link to="/today">
           <li
-          key={item.id}
-          className={classNames({
-            active: item.selected
-              ? true
-              : selectedList && selectedList.id === item.id,
-          })}
-          onClick={onClickList ? () => onClickList(item) : null}
-        >
-
-          <i>{icons(item)}</i>
-          <span>
-            {item.name}
-            {item.tasks && item.tasks.length > 0 && ` ${item.tasks.length}`}
-          </span>
-
-          {isRemovable && (
-            <i>
-              <img
-                src={RemoveSVg}
-                onClick={() => removeConf(item)}
-                alt="remove"
-                className="remove-list"
-              />
-            </i>
-          )}
-
-        </li>
-      ): <></>)
-      )}
-    </ul>
-
-   
- */}
-      <nav>
-        <ul className="list">
-          <Link to="/today">
-            <li
-              key="b1"
-              className={classNames({
-                active: selectedList && isSelList('today'),
-              })}
-              onClick={() => {
-                onClickBaseList('today');
-              }}
-            >
-              <i>{icons(1)}</i>
-              <span>Today</span>
-            </li>
-          </Link>
-
-          <Link to="/week">
-            <li
-              key="b2"
-              className={classNames({
-                active: selectedList && isSelList('week'),
-              })}
-              onClick={() => {
-                onClickBaseList('week');
-              }}
-            >
-              <i>{icons(2)}</i>
-              <span>Week</span>
-            </li>
-          </Link>
-
-          <Link to="/important">
-            <li
-              key="b3"
-              className={classNames({
-                active: selectedList && isSelList('important'),
-              })}
-              onClick={() => {
-                onClickBaseList('important');
-              }}
-            >
-              <i>{icons(3)}</i>
-              <span>Important</span>
-            </li>
-          </Link>
-
-          <Link to="/affairs">
-            <li
-              key="b4"
-              className={classNames({
-                active: selectedList && isSelList('affairs'),
-              })}
-              onClick={() => {
-                onClickBaseList('affairs');
-              }}
-            >
-              <i>{icons(4)}</i>
-              <span>Affairs</span>
-            </li>
-          </Link>
-
-          <Link to="/planned">
-            <li
-              key="b5"
-              className={classNames({
-                active: selectedList && isSelList('planned'),
-              })}
-              onClick={() => {
-                onClickBaseList('planned');
-              }}
-            >
-              <i>{icons(5)}</i>
-              <span>Planned</span>
-            </li>
-          </Link>
-
-          <Link to="/pomodoro">
-            <li
-              key="b6"
-              className={classNames({
-                active: selectedList && isSelList('pomodoro'),
-              })}
-              onClick={() => {
-                onClickBaseList('pomodoro');
-              }}
-            >
-              <i>{icons(6)}</i>
-              <span>Pomodoro</span>
-            </li>
-          </Link>
-        </ul>
-
-        <hr />
-        <ul className="list">
-          {lists &&
-            lists.map((list) =>
-              list.name !== 'Base' ? (
-                <Link key={list.id} to={'/userList' + list.id}>
-                  <li
-                    key={list.id}
-                    className={classNames({
-                      active: selectedList && selectedList.id === list.id,
-                    })}
-                    onClick={() => onClickUserList(list)}
-                  >
-                    <i>{icons(8)}</i>
-                    <span>{list.name}</span>
-
-                    <i>
-                      <img
-                        src={RemoveSVg}
-                        onClick={() => removeConf(list)}
-                        alt="remove"
-                        className="remove-list"
-                      />
-                    </i>
-                  </li>
-                </Link>
-              ) : (
-                <span key={list.id} />
-              ),
-            )}
-          <li key="addlist" onClick={changeFormVisibility}>
-            <i>{icons(7)}</i>
-            <span>Add List</span>
+            key="b1"
+            className={classNames({
+              active: selectedList && isSelList('today'),
+            })}
+            onClick={() => {
+              onClickBaseList('today');
+            }}
+          >
+            <i>{icons(1)}</i>
+            <span>Today</span>
           </li>
-        </ul>
-      </nav>
-    </>
+        </Link>
+
+        <Link to="/week">
+          <li
+            key="b2"
+            className={classNames({
+              active: selectedList && isSelList('week'),
+            })}
+            onClick={() => {
+              onClickBaseList('week');
+            }}
+          >
+            <i>{icons(2)}</i>
+            <span>Week</span>
+          </li>
+        </Link>
+
+        <Link to="/important">
+          <li
+            key="b3"
+            className={classNames({
+              active: selectedList && isSelList('important'),
+            })}
+            onClick={() => {
+              onClickBaseList('important');
+            }}
+          >
+            <i>{icons(3)}</i>
+            <span>Important</span>
+          </li>
+        </Link>
+
+        <Link to="/affairs">
+          <li
+            key="b4"
+            className={classNames({
+              active: selectedList && isSelList('affairs'),
+            })}
+            onClick={() => {
+              onClickBaseList('affairs');
+            }}
+          >
+            <i>{icons(4)}</i>
+            <span>Affairs</span>
+          </li>
+        </Link>
+
+        <Link to="/planned">
+          <li
+            key="b5"
+            className={classNames({
+              active: selectedList && isSelList('planned'),
+            })}
+            onClick={() => {
+              onClickBaseList('planned');
+            }}
+          >
+            <i>{icons(5)}</i>
+            <span>Planned</span>
+          </li>
+        </Link>
+
+        <Link to="/pomodoro">
+          <li
+            key="b6"
+            className={classNames({
+              active: selectedList && isSelList('pomodoro'),
+            })}
+            onClick={() => {
+              onClickBaseList('pomodoro');
+            }}
+          >
+            <i>{icons(6)}</i>
+            <span>Pomodoro</span>
+          </li>
+        </Link>
+      </ul>
+
+      <hr />
+      <ul className="list">
+        {lists &&
+          lists.map((list) =>
+            list.name !== 'Base' ? (
+              <Link key={list.id} to={'/userList' + list.id}>
+                <li
+                  key={list.id}
+                  className={classNames({
+                    active: selectedList && selectedList.id === list.id,
+                  })}
+                  onClick={() => onClickUserList(list)}
+                >
+                  <i>{icons(8)}</i>
+                  <span>{list.name}</span>
+
+                  <i>
+                    <img
+                      src={RemoveSVg}
+                      onClick={() => removeConf(list)}
+                      alt="remove"
+                      className="remove-list"
+                    />
+                  </i>
+                </li>
+              </Link>
+            ) : (
+              <span key={list.id} />
+            ),
+          )}
+        <li key="addlist" onClick={changeFormVisibility}>
+          <i>{icons(7)}</i>
+          <span>Add List</span>
+        </li>
+      </ul>
+    </nav>
   );
 }

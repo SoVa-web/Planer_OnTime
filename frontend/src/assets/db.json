@@ -17,7 +17,7 @@
       "name": "English"
     },
     {
-      "name": "Hello",
+      "name": "hj",
       "id": 14
     }
   ],
@@ -133,28 +133,6 @@
       "id": 87
     },
     {
-      "listId": 14,
-      "title": "New edit title",
-      "creationDate": 1620594000000,
-      "deadline": 1620680400000,
-      "compDate": 1620939600000,
-      "important": true,
-      "completed": false,
-      "deleteDate": null,
-      "id": 88
-    },
-    {
-      "listId": 14,
-      "title": "jkjkjkjkj",
-      "creationDate": 1620594000000,
-      "deadline": 1620680400000,
-      "compDate": null,
-      "important": false,
-      "completed": true,
-      "deleteDate": 1620594000000,
-      "id": 89
-    },
-    {
       "listId": 1,
       "title": "Заметка",
       "creationDate": 1620594000000,
@@ -188,17 +166,6 @@
       "id": 91
     },
     {
-      "listId": 14,
-      "title": "Hello",
-      "creationDate": 1620766800000,
-      "deadline": 1620766800000,
-      "compDate": 1620939600000,
-      "important": true,
-      "completed": false,
-      "deleteDate": null,
-      "id": 92
-    },
-    {
       "listId": 1,
       "title": "It's today task",
       "creationDate": 1620939600000,
@@ -230,17 +197,6 @@
       "completed": false,
       "deleteDate": null,
       "id": 95
-    },
-    {
-      "listId": 14,
-      "title": "Hii",
-      "creationDate": 1621026000000,
-      "deadline": 1621026000000,
-      "compDate": null,
-      "important": false,
-      "completed": false,
-      "deleteDate": null,
-      "id": 96
     },
     {
       "listId": 1,
@@ -296,6 +252,17 @@
       "completed": false,
       "deleteDate": null,
       "id": 200
+    },
+    {
+      "listId": 14,
+      "title": "hjh",
+      "creationDate": 1621371600000,
+      "deadline": 1621371600000,
+      "compDate": null,
+      "important": true,
+      "completed": false,
+      "deleteDate": null,
+      "id": 201
     }
   ]
 }

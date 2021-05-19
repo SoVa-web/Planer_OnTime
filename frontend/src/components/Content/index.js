@@ -7,46 +7,7 @@ import './Tasks.scss';
 
 const msInDay = 24 * 3600 * 1000;
 
-export default function Content({
-  lists,
-  /* onChangeTitle,
-  onAddTask,
-  onRemoveTask,
-  onEditTask,
-  onChangeCompTask,
-  onChangeImpTask,
-  */
-}) {
-  /*
-  function dayTasks() { 
-     const newList = list;
-     newList.tasks = newList.tasks.filter(task => task.deadline === Number(new Date().setHours(0, 0, 0, 0)));
-    console.log('Hellojkjkjkjjj', newList)
-     return newList;
-  }
-
-  function weekTasks() {
-    const newList =  list;
-    newList.tasks = newList.tasks.filter(task => task.deadline < Number(new Date().setHours(0, 0, 0, 0)) + 24*3600*1000)
-    return newList;
-  }
-
-  function importantTasks() {
-    const newList =  list;
-    newList.tasks = newList.tasks.filter(task => task.important)
-    return newList;
-  }
-
-  <Tasks 
-            list={weekTasks()}
-            onChangeTitle={onChangeTitle}
-            onAddTask={onAddTask}
-            onRemoveTask={onRemoveTask}
-            onEditTask={onEditTask}
-            onChangeCompTask={onChangeCompTask}
-            onChangeImpTask={onChangeImpTask}
-        />
-*/
+export default function Content({ lists }) {
   const baseList = lists.find((list) => list.name === 'Base');
   if (baseList) baseList.tasks.sort((t1, t2) => t1.deadline - t2.deadline);
 
@@ -74,7 +35,7 @@ export default function Content({
         </Route>
 
         {lists.map((list) => (
-          <Route key={list.id} path={'/userList' + list.id}>
+          <Route key={list.id + 24} path={'/userList' + list.id}>
             <ShowTasks selList={list} />
           </Route>
         ))}
