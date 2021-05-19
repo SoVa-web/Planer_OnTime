@@ -36,8 +36,10 @@
     span {
       flex: 1;
     }
-
-
+  }
+  a {
+    color: #3d3d3d !important;
+    text-decoration: none;
   }
 } 
 
@@ -45,9 +47,4 @@
   opacity: 0;
   width: 14px;
   height: 14px;
-}
-
-a {
-  color: #000 !important;
-  text-decoration: none;
 }

@@ -1,7 +1,10 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import classNames from 'classnames';
 import './List.scss';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import ListSvg from '../../assets/list.svg';
 import SunSvg from '../../assets/sun.svg';
@@ -13,16 +16,17 @@ import TomatoSvg from '../../assets/tomato.svg';
 import PlusSvg from '../../assets/plus.svg';
 import RemoveSVg from '../../assets/delete.svg';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function List({
-  items,
-  onClick,
+  lists,
   onClickList,
   isRemovable,
   onRemove,
   selectedList,
+  changeFormVisibility,
 }) {
-  function icons(item) {
-    switch (item.id) {
+  function icons(itemId) {
+    switch (itemId) {
       case 1:
         return <img src={SunSvg} alt="icon" />;
       case 2:
@@ -50,10 +54,53 @@ export default function List({
       });
   }
 
+  let baseList;
+  if (lists) baseList = lists.find((item) => item.name === 'Base');
+  console.log('menu', lists);
+
+  const [baseSelList, setBaseSelList] = React.useState([
+    { name: 'today', sel: false },
+    { name: 'week', sel: false },
+    { name: 'important', sel: false },
+    { name: 'planned', sel: false },
+    { name: 'affairs', sel: false },
+    { name: 'pomodoro', sel: false },
+  ]);
+
+  function setSelList(listName) {
+    const newBaseSelList = baseSelList.map((bList) => {
+      if (bList.name === listName) {
+        bList.sel = true;
+      } else if (bList.name !== listName && bList.sel === true) {
+        bList.sel = false;
+      }
+      return bList;
+    });
+    setBaseSelList(newBaseSelList);
+  }
+
+  function isSelList(listName) {
+    const list = baseSelList.find((bList) => bList.name === listName);
+    return list.sel;
+  }
+
+  function onClickBaseList(listName) {
+    onClickList(baseList);
+    setSelList(listName);
+  }
+
+  function onClickUserList(list) {
+    onClickList(list);
+    setSelList(list.name);
+  }
+
   return (
-    <ul onClick={onClick} className="list">
-      {items.map((item) => (
-        <li
+    <>
+      {/*
+    <ul className="list">
+      {lists.map((item) => (
+        item.name !== 'Base' ? (
+          <li
           key={item.id}
           className={classNames({
             active: item.selected
@@ -62,11 +109,13 @@ export default function List({
           })}
           onClick={onClickList ? () => onClickList(item) : null}
         >
+
           <i>{icons(item)}</i>
           <span>
             {item.name}
             {item.tasks && item.tasks.length > 0 && ` ${item.tasks.length}`}
           </span>
+
           {isRemovable && (
             <i>
               <img
@@ -77,8 +126,143 @@ export default function List({
               />
             </i>
           )}
+
         </li>
-      ))}
+      ): <></>)
+      )}
     </ul>
+
+   
+ */}
+      <nav>
+        <ul className="list">
+          <Link to="/today">
+            <li
+              key="b1"
+              className={classNames({
+                active: selectedList && isSelList('today'),
+              })}
+              onClick={() => {
+                onClickBaseList('today');
+              }}
+            >
+              <i>{icons(1)}</i>
+              <span>Today</span>
+            </li>
+          </Link>
+
+          <Link to="/week">
+            <li
+              key="b2"
+              className={classNames({
+                active: selectedList && isSelList('week'),
+              })}
+              onClick={() => {
+                onClickBaseList('week');
+              }}
+            >
+              <i>{icons(2)}</i>
+              <span>Week</span>
+            </li>
+          </Link>
+
+          <Link to="/important">
+            <li
+              key="b3"
+              className={classNames({
+                active: selectedList && isSelList('important'),
+              })}
+              onClick={() => {
+                onClickBaseList('important');
+              }}
+            >
+              <i>{icons(3)}</i>
+              <span>Important</span>
+            </li>
+          </Link>
+
+          <Link to="/affairs">
+            <li
+              key="b4"
+              className={classNames({
+                active: selectedList && isSelList('affairs'),
+              })}
+              onClick={() => {
+                onClickBaseList('affairs');
+              }}
+            >
+              <i>{icons(4)}</i>
+              <span>Affairs</span>
+            </li>
+          </Link>
+
+          <Link to="/planned">
+            <li
+              key="b5"
+              className={classNames({
+                active: selectedList && isSelList('planned'),
+              })}
+              onClick={() => {
+                onClickBaseList('planned');
+              }}
+            >
+              <i>{icons(5)}</i>
+              <span>Planned</span>
+            </li>
+          </Link>
+
+          <Link to="/pomodoro">
+            <li
+              key="b6"
+              className={classNames({
+                active: selectedList && isSelList('pomodoro'),
+              })}
+              onClick={() => {
+                onClickBaseList('pomodoro');
+              }}
+            >
+              <i>{icons(6)}</i>
+              <span>Pomodoro</span>
+            </li>
+          </Link>
+        </ul>
+
+        <hr />
+        <ul className="list">
+          {lists &&
+            lists.map((list) =>
+              list.name !== 'Base' ? (
+                <Link key={list.id} to={'/userList' + list.id}>
+                  <li
+                    key={list.id}
+                    className={classNames({
+                      active: selectedList && selectedList.id === list.id,
+                    })}
+                    onClick={() => onClickUserList(list)}
+                  >
+                    <i>{icons(8)}</i>
+                    <span>{list.name}</span>
+
+                    <i>
+                      <img
+                        src={RemoveSVg}
+                        onClick={() => removeConf(list)}
+                        alt="remove"
+                        className="remove-list"
+                      />
+                    </i>
+                  </li>
+                </Link>
+              ) : (
+                <span key={list.id} />
+              ),
+            )}
+          <li key="addlist" onClick={changeFormVisibility}>
+            <i>{icons(7)}</i>
+            <span>Add List</span>
+          </li>
+        </ul>
+      </nav>
+    </>
   );
 }

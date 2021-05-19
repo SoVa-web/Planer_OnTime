@@ -1,18 +1,24 @@
 import React from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { List, AddList, Tasks } from './components';
+import Context from './context';
+import {
+  List,
+  // BaseList,
+  AddList,
+  Content,
+} from './components';
 // import Db from './assets/db.json';
 
+/*
 const categ = [
-  { id: 1, name: 'Сьогодні', selected: false },
-  { id: 2, name: 'Тиждень', selected: false },
-  { id: 3, name: 'Важливі', selected: false },
-  { id: 4, name: 'Справи', selected: false },
-  { id: 5, name: 'Заплановані', selected: false },
-  { id: 6, name: 'Pomodoro', selected: false },
+  { id: 1, name: 'Today', tasks: [] },
+  { id: 2, name: 'Week', tasks: [] },
+  { id: 3, name: 'Important', tasks: [] },
+  { id: 4, name: 'Affairs', tasks: [] },
+  { id: 5, name: 'Planned', tasks: [] },
+  { id: 6, name: 'Pomodoro', tasks: [] },
 ];
-
+*/
 // eslint-disable-next-line no-unused-vars
 const lists1 = [
   { id: 8, name: 'Workout' },
@@ -21,9 +27,12 @@ const lists1 = [
 
 function App() {
   const [lists, setLists] = React.useState([]);
+  // const [baseLists, setBaseLists] = React.useState(categ);
+  // eslint-disable-next-line no-unused-vars
   const [selectedList, setSelectedList] = React.useState(null);
+  const [isVisibleForm, setFormVisibility] = React.useState(false);
   const isRemovable = true;
-  const listsHistory = useHistory();
+  // const listsHistory = useHistory();
 
   function getData() {
     axios
@@ -33,7 +42,7 @@ function App() {
 
   React.useEffect(getData, []);
 
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     const pathId = Number(listsHistory.location.pathname.split('lists/')[1]);
     if (lists) {
       const selList = lists.find((item) => item.id === pathId);
@@ -41,6 +50,7 @@ function App() {
       console.log(listsHistory);
     }
   }, [listsHistory.location.pathname, lists]);
+*/
 
   function onSaveList(obj) {
     const newLists = [...lists, obj];
@@ -118,42 +128,97 @@ function App() {
     setLists(compList);
   }
 
+  function onChangeImpTask(task, important) {
+    const compList = lists.map((list) => {
+      if (list.id === task.listId) {
+        const newList = list;
+        newList.tasks = list.tasks.map((oldTask) => {
+          if (oldTask.id === task.id) {
+            const newTask = oldTask;
+            newTask.important = important;
+            return newTask;
+          }
+          return oldTask;
+        });
+      }
+      return list;
+    });
+    setLists(compList);
+  }
+
   return (
-    <div className="planner">
-      <div className="planner__sidebar">
-        <List
+    <Context.Provider
+      value={{
+        onChangeTitleInList,
+        onAddTask,
+        onRemoveTask,
+        onEditTask,
+        onChangeCompTask,
+        onChangeImpTask,
+      }}
+    >
+      <div className="planner">
+        <div className="planner__sidebar">
+          {/*
+          <List
           items={categ}
-          onClickList={(selList) => {
-            console.log(selList);
-          }}
-        />
-        <hr />
-        <List
-          items={lists}
-          isRemovable={isRemovable}
-          onRemove={onRemove}
           onClickList={(selList) => {
             listsHistory.push('/lists/' + selList.id);
             setSelectedList(selList);
           }}
+        
+        />
+          */
+          /* 
+          <BaseList
+          items={lists}
+          isBase
+          onClickList={(selList) => {
+            console.log('now last', selList)
+          }}
           selectedList={selectedList}
         />
-        <AddList onSave={onSaveList} />
-      </div>
-      <div className="planner__content">
-        {console.log(selectedList)}
-        {lists[2] && selectedList && (
-          <Tasks
-            list={selectedList}
-            onChangeTitle={onChangeTitleInList}
-            onAddTask={onAddTask}
-            onRemoveTask={onRemoveTask}
-            onEditTask={onEditTask}
-            onChangeCompTask={onChangeCompTask}
+        
+        <hr /> 
+        }
+        */}
+
+          <List
+            lists={lists}
+            selectedList={selectedList}
+            isRemovable={isRemovable}
+            onRemove={onRemove}
+            changeFormVisibility={() => setFormVisibility(!isVisibleForm)}
+            onClickList={(selList) => {
+              setSelectedList(selList);
+              console.log('selList', selList);
+            }}
           />
-        )}
+          <AddList
+            onSave={onSaveList}
+            isVisible={isVisibleForm}
+            setVisibility={() => setFormVisibility(!isVisibleForm)}
+          />
+        </div>
+
+        <div className="planner__content">
+          {console.log(selectedList)}
+          {
+            // lists[2] && selectedList &&
+            <Content
+              list={selectedList}
+              lists={lists}
+              onChangeTitle={onChangeTitleInList}
+              onAddTask={onAddTask}
+              onRemoveTask={onRemoveTask}
+              onEditTask={onEditTask}
+              onChangeCompTask={onChangeCompTask}
+              onChangeImpTask={onChangeImpTask}
+            />
+          }
+        </div>
       </div>
-    </div>
+    </Context.Provider>
   );
 }
 

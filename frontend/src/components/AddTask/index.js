@@ -18,7 +18,7 @@ export default function AddTask({ onAddTask, list }) {
     let today = new Date();
     today = Number(today.setHours(0, 0, 0, 0));
 
-    const expDate = today + 24 * 3600 * 1000;
+    const expDate = today;
     const imp = false;
 
     const newTask = {
