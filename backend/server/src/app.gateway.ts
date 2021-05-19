@@ -11,7 +11,7 @@ import { Socket, Server } from 'socket.io';
 
 import { Pool } from 'pg';
 
-Object.prototype['renameProperty'] = function (
+Object.prototype['renameProperty'] = function(
   oldName: string,
   newName: string,
 ) {
@@ -26,11 +26,6 @@ Object.prototype['renameProperty'] = function (
 };
 
 const config = {
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: process.env.PWD,
-  port: process.env.PORT,
 };
 
 const pool = new Pool(config);
@@ -56,25 +51,25 @@ function dataSuitier(lists, notes) {
 }
 
 function getListsAndNotesFromDB(user: string) {
-  const promise = new Promise(function (resolve) {
+  const promise = new Promise(function(resolve) {
     pool.query(`select * from gettingNotes('${user}')`, (err, notes) => {
       resolve(notes.rows);
     });
   });
   return promise
-    .then(function (notes) {
-      return new Promise(function (resolve) {
+    .then(function(notes) {
+      return new Promise(function(resolve) {
         pool.query(`select * from gettingLists('${user}')`, (err, lists) => {
           resolve([notes, lists.rows]);
         });
       });
     })
-    .then(function (notesAndLists) {
+    .then(function(notesAndLists) {
       return dataSuitier(notesAndLists[1], notesAndLists[0]);
     });
 }
 
-function updNotes(data: {
+function createNote(data: {
   googleIdentify: number;
   noteName: string;
   createDate: number;
@@ -83,10 +78,7 @@ function updNotes(data: {
   statusComp: boolean;
   idlist?: number | null;
 }) {
-  /*
-   * update or create new note
-   */
-  const promise = new Promise(function (resolve) {
+  const promise = new Promise(function(resolve) {
     pool.query(
       `select * from settingNote('${data.googleIdentify}',
  '${data.noteName}',
@@ -105,15 +97,28 @@ function updNotes(data: {
       },
     );
   });
-  return promise.then(function (id) {
+  return promise.then(function(id) {
     return id;
   });
 }
 
+async function createList(data: { googleIdentify: number; nameList: string; }) {
+  const listID = await pool.query(`select * from settingList('${data.googleIdentify}', '${data.nameList}')`)
+  return listID.rows
+}
+async function updateList(data: { googleIdentify: number; nameList: string; }) {
+  const listID = await pool.query(`select * from updateList('${data.googleIdentify}', '${data.nameList}')`)
+  return listID.rows
+}
+
+async function deleteList(data: { googleIdentify: number; nameList: string; dataDelete}) {
+  const listID = await pool.query(`select * from deleteList('${data.googleIdentify}', '${data.nameList}', '${data.dataDelete}')`)
+  return listID.rows
+}
+
 @WebSocketGateway()
 export class AppGateway
-  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
-{
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
   private logger: Logger = new Logger('AppGateway');
@@ -121,11 +126,9 @@ export class AppGateway
   afterInit() {
     this.logger.log('Init');
   }
-
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
   }
-
   handleConnection(client: Socket) {
     this.logger.log(`Client connected: ${client.id}`);
   }
@@ -134,20 +137,18 @@ export class AppGateway
   handleList(client: Socket, user: string) {
     const serv = this.server;
     client.join(`${user}`);
-    const promise = new Promise(function (resolve) {
+    const promise = new Promise(function(resolve) {
       const t = getListsAndNotesFromDB(user);
       resolve(t);
     });
-    promise.then(function (datafrombd) {
+    promise.then(function(datafrombd) {
       console.log(datafrombd);
       serv.to(user).emit('data', datafrombd);
     });
   }
 
-  @SubscribeMessage('upd_notes')
-  handleListCreate_or_Upd(
-    client: Socket,
-    data: {
+  @SubscribeMessage('createNote')
+  async handleListCreateNote(client: Socket, data: {
       googleIdentify: number;
       noteName: string;
       createDate: number;
@@ -156,29 +157,56 @@ export class AppGateway
       statusComp: boolean;
       idlist?: number | null;
     },
-  ): void {
+  ): Promise<void> {
     const serv = this.server;
-    client.join(`${data.googleIdentify}`);
-    const promise = new Promise(function (resolve) {
-      const t = updNotes(data);
-      resolve(t);
-    });
-    promise.then(function (datafrombd) {
-      console.log(datafrombd);
-      serv.to(data.googleIdentify).emit('dataUPD', datafrombd);
-    });
+    await client.join(`${data.googleIdentify}`);
+    const datafrombd = await createNote(data);
+    await serv.to(`${data.googleIdentify}`).emit('dataUPD', datafrombd);
   }
 
-  @SubscribeMessage('updlist')
-  handleListUPD(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @SubscribeMessage('createList')
+  async handleListCreate(
     client: Socket,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data: {
       googleIdentify: number;
       nameList: string;
     },
-  ): void {
-    /*update list*/
+  ): Promise<void> {
+    console.log('started creating list');
+    const serv = this.server;
+    await client.join(`${data.googleIdentify}`);
+    let id = await createList(data);
+    serv.to(`${data.googleIdentify}`).emit('listCreated', id[0][Object.keys(id[0])]);
+  }
+
+  @SubscribeMessage('updateList')
+  async handleListUPD(
+    client: Socket,
+    data: {
+      googleIdentify: number;
+      nameList: string;
+    },
+  ): Promise<void> {
+    console.log('started updating list');
+    const serv = this.server;
+    await client.join(`${data.googleIdentify}`);
+    let id = await updateList(data);
+    serv.to(`${data.googleIdentify}`).emit('listUpdated', id[0][Object.keys(id[0])]);
+  }
+
+  @SubscribeMessage('deleteList')
+  async handleListDelete(
+    client: Socket,
+    data: {
+      googleIdentify: number;
+      nameList: string;
+      dataDelete : number;
+    },
+  ): Promise<void> {
+    console.log('started deleting list');
+    const serv = this.server;
+    await client.join(`${data.googleIdentify}`);
+    let id = await deleteList(data);
+    serv.to(`${data.googleIdentify}`).emit('listDeleted', id[0][Object.keys(id[0])]);
   }
 }
