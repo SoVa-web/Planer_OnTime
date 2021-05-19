@@ -116,9 +116,9 @@
       "title": "jj",
       "creationDate": 1620594000000,
       "deadline": 1620680400000,
-      "compDate": null,
+      "compDate": 1621371600000,
       "important": true,
-      "completed": false,
+      "completed": true,
       "deleteDate": null
     },
     {
@@ -170,7 +170,7 @@
       "title": "It's today task",
       "creationDate": 1620939600000,
       "deadline": 1620939600000,
-      "compDate": null,
+      "compDate": 1621371600000,
       "important": true,
       "completed": false,
       "deleteDate": null,
@@ -225,7 +225,7 @@
       "title": "One else today task",
       "creationDate": 1621026000000,
       "deadline": 1621371600000,
-      "compDate": 1621026000000,
+      "compDate": 1621371600000,
       "important": true,
       "completed": false,
       "deleteDate": null,
@@ -263,6 +263,17 @@
       "completed": false,
       "deleteDate": null,
       "id": 201
+    },
+    {
+      "listId": 1,
+      "title": "FDD",
+      "creationDate": 1621371600000,
+      "deadline": 1621371600000,
+      "compDate": 1621371600000,
+      "important": true,
+      "completed": true,
+      "deleteDate": null,
+      "id": 202
     }
   ]
 }

@@ -32,6 +32,17 @@ export default function AddTask({ onAddTask, list }) {
       deleteDate: null,
     };
 
+    /*
+    const newTask = {
+      googleIdentify: 8,
+      noteName: inputTitle,
+      createDate: today,
+      deadlineTask: expDate,
+      importantTask: imp,
+      statusComp: false
+    }
+    */
+
     if (inputTitle.length)
       axios.post('http://localhost:3001/tasks', newTask).then((savedTask) => {
         onAddTask(list.id, savedTask.data);
