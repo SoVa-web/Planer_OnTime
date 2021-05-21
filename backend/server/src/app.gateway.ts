@@ -52,14 +52,16 @@ function dataSuitier(lists, notes) {
 
 function getListsAndNotesFromDB(user: string) {
   const promise = new Promise(function(resolve) {
-    pool.query(`select * from gettingNotes('${user}')`, (err, notes) => {
+    pool.query(`select *
+                from gettingNotes('${user}')`, (err, notes) => {
       resolve(notes.rows);
     });
   });
   return promise
     .then(function(notes) {
       return new Promise(function(resolve) {
-        pool.query(`select * from gettingLists('${user}')`, (err, lists) => {
+        pool.query(`select *
+                    from gettingLists('${user}')`, (err, lists) => {
           resolve([notes, lists.rows]);
         });
       });
@@ -80,13 +82,14 @@ function createNote(data: {
 }) {
   const promise = new Promise(function(resolve) {
     pool.query(
-      `select * from settingNote('${data.googleIdentify}',
- '${data.noteName}',
- '${data.createDate}',
-  '${data.deadlineTask}',
-  '${+data.importantTask}', 
-  '${+data.statusComp}'
-   ${data.idlist ? `,'${data.idlist}'` : ''})`,
+      `select *
+       from settingNote('${data.googleIdentify}',
+                        '${data.noteName}',
+                        '${data.createDate}',
+                        '${data.deadlineTask}',
+                        '${+data.importantTask}',
+                        '${+data.statusComp}'
+                            ${data.idlist ? `,'${data.idlist}'` : ''})`,
       (err, id) => {
         if (err) {
           resolve(-1);
@@ -103,17 +106,26 @@ function createNote(data: {
 }
 
 async function createList(data: { googleIdentify: number; nameList: string; }) {
-  const listID = await pool.query(`select * from settingList('${data.googleIdentify}', '${data.nameList}')`)
-  return listID.rows
-}
-async function updateList(data: { googleIdentify: number; nameList: string; }) {
-  const listID = await pool.query(`select * from updateList('${data.googleIdentify}', '${data.nameList}')`)
-  return listID.rows
+  const listID = await pool.query(`select *
+                                   from settingList('${data.googleIdentify}', '${data.nameList}')`);
+  return listID.rows;
 }
 
-async function deleteList(data: { googleIdentify: number; nameList: string; dataDelete}) {
-  const listID = await pool.query(`select * from deleteList('${data.googleIdentify}', '${data.nameList}', '${data.dataDelete}')`)
-  return listID.rows
+async function updateList(data: { googleIdentify: number; nameList: string; }) {
+  const res = await pool.query(`select *
+                                   from updateList('${data.googleIdentify}', '${data.nameList}')`);
+  return res.rows;
+}
+
+async function deleteList(data: { googleIdentify: number; nameList: string; dataDelete:number }) {
+  const res = await pool.query(`select *
+                                   from deleteList('${data.googleIdentify}', '${data.nameList}', '${data.dataDelete}')`);
+  return res.rows;
+}
+async function deleteNote(data: { googleIdentify: number; id: number; dataDelete: number }) {
+  const res = await pool.query(`select *
+                                   from deleteNote('${data.googleIdentify}', '${data.id}', '${data.dataDelete}')`);
+  return res.rows;
 }
 
 @WebSocketGateway()
@@ -126,9 +138,11 @@ export class AppGateway
   afterInit() {
     this.logger.log('Init');
   }
+
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
   }
+
   handleConnection(client: Socket) {
     this.logger.log(`Client connected: ${client.id}`);
   }
@@ -148,20 +162,48 @@ export class AppGateway
   }
 
   @SubscribeMessage('createNote')
-  async handleListCreateNote(client: Socket, data: {
-      googleIdentify: number;
-      noteName: string;
-      createDate: number;
-      deadlineTask: number;
-      importantTask: boolean;
-      statusComp: boolean;
-      idlist?: number | null;
-    },
+  async handleCreateNote(client: Socket, data: {
+                           googleIdentify: number;
+                           noteName: string;
+                           createDate: number;
+                           deadlineTask: number;
+                           importantTask: boolean;
+                           statusComp: boolean;
+                           idlist?: number | null;
+                         },
   ): Promise<void> {
     const serv = this.server;
     await client.join(`${data.googleIdentify}`);
     const datafrombd = await createNote(data);
     await serv.to(`${data.googleIdentify}`).emit('dataUPD', datafrombd);
+  }
+
+  @SubscribeMessage('updateNote')
+  async handlerNoteUPD(client: Socket, data: {
+    googleIdentify: number;
+    id: number;
+    noteName: string;
+    deadlineTask: number|null;
+    dateComplation: number|null;
+    importantTask: boolean;
+  }) {
+    /* .................. */
+  }
+
+  @SubscribeMessage('deleteNote')
+  async handleNoteDelete(
+    client: Socket,
+    data: {
+      googleIdentify: number;
+      id: number;
+      dataDelete: number;
+    },
+  ): Promise<void> {
+    console.log('started deleting note');
+    const serv = this.server;
+    await client.join(`${data.googleIdentify}`);
+    let id = await deleteNote(data);
+    serv.to(`${data.googleIdentify}`).emit('noteDeleted', id[0][Object.keys(id[0])]);
   }
 
   @SubscribeMessage('createList')
@@ -173,10 +215,9 @@ export class AppGateway
     },
   ): Promise<void> {
     console.log('started creating list');
-    const serv = this.server;
     await client.join(`${data.googleIdentify}`);
     let id = await createList(data);
-    serv.to(`${data.googleIdentify}`).emit('listCreated', id[0][Object.keys(id[0])]);
+    this.server.to(`${data.googleIdentify}`).emit('listCreated', id[0][Object.keys(id[0])]);
   }
 
   @SubscribeMessage('updateList')
@@ -200,7 +241,7 @@ export class AppGateway
     data: {
       googleIdentify: number;
       nameList: string;
-      dataDelete : number;
+      dataDelete: number;
     },
   ): Promise<void> {
     console.log('started deleting list');
