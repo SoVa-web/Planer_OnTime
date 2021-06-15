@@ -8,7 +8,7 @@ function App() {
   const [selectedList, setSelectedList] = React.useState(null);
   const [isVisibleForm, setFormVisibility] = React.useState(false);
   const isRemovable = true;
-
+  // console.log('SelListrr', selectedList);
   function getData() {
     axios
       .get('http://localhost:3001/lists?_embed=tasks')
@@ -56,7 +56,7 @@ function App() {
     const path = 'http://localhost:3001/tasks/' + task.id;
     if (!task.completed) {
       axios.delete(path).then(() => getData());
-      console.log(task.id);
+      // console.log(task.id);
     } else {
       axios
         .patch(path, { deleteDate: Number(new Date().setHours(0, 0, 0, 0)) })
@@ -132,7 +132,7 @@ function App() {
             changeFormVisibility={() => setFormVisibility(!isVisibleForm)}
             onClickList={(selList) => {
               setSelectedList(selList);
-              console.log('selList', selList);
+              //  console.log('selList', selList);
             }}
           />
           <AddList
@@ -143,7 +143,6 @@ function App() {
         </div>
 
         <div className="planner__content">
-          {console.log(selectedList)}
           {
             // lists[2] && selectedList &&
             <Content

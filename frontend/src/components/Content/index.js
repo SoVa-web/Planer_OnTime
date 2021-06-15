@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Tasks from '../Tasks';
 
-import './Tasks.scss';
+// import './Tasks.scss';
 
 const msInDay = 24 * 3600 * 1000;
 
@@ -11,7 +11,7 @@ export default function Content({ lists }) {
   const baseList = lists.find((list) => list.name === 'Base');
   if (baseList) baseList.tasks.sort((t1, t2) => t1.deadline - t2.deadline);
 
-  console.log(lists, baseList);
+  // console.log(lists, baseList);
   return (
     <div>
       <Switch>

@@ -1,13 +1,14 @@
-.tasks {
+/*.tasks {
     &__title {
         display: flex;
         border-bottom: 1px solid;
-        img {
+        margin-right: 35px;
+        /*img {
             width: 18px;
             margin-left: 14px;
             margin-bottom: 8px;
             cursor: pointer;
-            opacity: 0;
+            opacity: 0.9;
         }
 
         .title {
@@ -18,13 +19,13 @@
         }
     }
 
-    &__title:hover {
+    /*&__title:hover {
         img {
             opacity: 0.6;
         }
         
         img:hover {
-            opacity: 0.9;
+            opacity: 0;
         }
     }
 
@@ -66,11 +67,12 @@
                 opacity: 1;
             }
         }
-
+        /*
         img {
-            width: 20px;
-            opacity: 0;
-        }
+            width: 40px;
+            opacity: 0.9; 
+        } 
+        
     }
 
     .task {
@@ -97,23 +99,35 @@
             cursor: pointer;
     }
 
-    &:hover {
+   /* &:hover {
         img, .important-img {
             opacity: 0.6;
         }
     }
-
-    .important-img {
+   
+    /*.important-img {
         mask-image: url("../../assets/star.svg");
     }
-
+    
     .more-img {
         width: 14px;
         margin: 2px 0px 0px 1px;
     }
 
-    .more-img:hover {
+    .more-img:hover{
         opacity: 0.8;
+    }
+    
+    .task-img:hover {
+        opacity: 1;
+    }
+    .task-img1 {
+        width: 16px;
+        margin-left: 6px;
+    }
+    .task-img {
+        margin-left: 6px;
     }
 }
 }
+*/

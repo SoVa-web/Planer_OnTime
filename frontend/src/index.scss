@@ -39,7 +39,7 @@ body {
   &__content {
     flex: 1;
     overflow: auto;
-    padding: 60px;
+    padding: 60px 40px 60px 60px;
   }
 }
 
@@ -61,8 +61,8 @@ body {
   cursor: pointer;
 
   &-cancel {
-    background: #cbcbcb;
-    color: #3f3f3f;
+    background: #b5b5b5;;
+    color: #414141;
     font-weight: 600;
   }
 

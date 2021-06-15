@@ -2,22 +2,23 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
 import AddTask from '../AddTask';
-import './Tasks.scss';
+// import EditTask from '../EditTask';
+import '../Content/Tasks.scss';
 import Context from '../../context';
 
 import CheckSvg from '../../assets/check.svg';
 import EditSvg from '../../assets/edit.svg';
-// import Edit2Svg from '../../assets/edit2.svg';
-// import DeleteSvg from '../../assets/cross2.svg';
+import Edit2Svg from '../../assets/edit2.svg';
+import DeleteSvg from '../../assets/cross2.svg';
 import StarSvg from '../../assets/star.svg';
-import MoreSvg from '../../assets/more.svg';
+// import MoreSvg from '../../assets/more.svg';
 
-export default function Content({ list, listName }) {
+export default function Tasks({ list, listName }) {
   const {
     onChangeTitleInList,
     onAddTask,
-    /* onRemoveTask,
-      onEditTask, */
+    onRemoveTask,
+    onEditTask,
     onChangeCompTask,
     onChangeImpTask,
   } = useContext(Context);
@@ -33,7 +34,7 @@ export default function Content({ list, listName }) {
   };
 
   function onChangeCompStatus(event, task) {
-    console.log(task, event.target.checked);
+    // console.log(task, event.target.checked);
     axios.patch('http://localhost:3001/tasks/' + task.id, {
       completed: event.target.checked,
       compDate: Number(new Date().setHours(0, 0, 0, 0)),
@@ -63,7 +64,9 @@ export default function Content({ list, listName }) {
     <div className="tasks">
       {listName ? (
         <div className="tasks__title">
-          <h1 className="title">{listName}</h1>
+          <h1 id="title" className="title">
+            {listName}
+          </h1>
         </div>
       ) : (
         <div className="tasks__title">
@@ -89,22 +92,12 @@ export default function Content({ list, listName }) {
                   </label>
                 </div>
                 <div className="task">
-                  <p>{item.title}</p>
+                  <p key="task-p">{item.title}</p>
                   <div className="task__icons">
                     <p className="task__deadline">{daysLeft(item.deadline)}</p>
-                    {/* <img
-                      alt="edit"
-                      src={Edit2Svg}
-                      className="task-img"
-                      onClick={() => onEditTask(item)}
-                    />
-                    <img
-                      alt="delete"
-                      src={DeleteSvg}
-                      className="task-img"
-                      onClick={() => onRemoveTask(item)}
-                    />
-                    */}
+
+                    {/* <img src={MoreSvg} alt="more" className="more-img" onClick={() => onEditTask(item)}/> */}
+
                     <div className="checkbox">
                       <input
                         id={`important${item.id}`}
@@ -116,10 +109,25 @@ export default function Content({ list, listName }) {
                         htmlFor={`important${item.id}`}
                         className="imp-label"
                       >
-                        <img alt="important" src={StarSvg} />
+                        <img
+                          className="imp-img"
+                          alt="important"
+                          src={StarSvg}
+                        />
                       </label>
                     </div>
-                    <img src={MoreSvg} alt="more" className="more-img" />
+                    <img
+                      alt="edit"
+                      src={Edit2Svg}
+                      className="task-img task-img1"
+                      onClick={() => onEditTask(item)}
+                    />
+                    <img
+                      alt="delete"
+                      src={DeleteSvg}
+                      className="task-img"
+                      onClick={() => onRemoveTask(item)}
+                    />
                   </div>
                 </div>
               </div>

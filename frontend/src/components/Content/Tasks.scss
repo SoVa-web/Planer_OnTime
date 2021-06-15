@@ -2,6 +2,7 @@
     &__title {
         display: flex;
         border-bottom: 1px solid;
+        margin-right: 35px;
         img {
             width: 18px;
             margin-left: 14px;
@@ -111,9 +112,16 @@
         width: 14px;
         margin: 2px 0px 0px 1px;
     }
-
-    .more-img:hover {
-        opacity: 0.8;
+    
+    .task-img:hover {
+        opacity: 1;
+    }
+    .task-img1 {
+        width: 16px;
+        margin-left: 6px;
+    }
+    .task-img {
+        margin-left: 6px;
     }
 }
 }

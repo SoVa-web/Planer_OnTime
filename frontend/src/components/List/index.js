@@ -54,7 +54,7 @@ export default function List({
 
   let baseList;
   if (lists) baseList = lists.find((item) => item.name === 'Base');
-  console.log('menu', lists);
+  // console.log('menu', lists);
 
   const [baseSelList, setBaseSelList] = React.useState([
     { name: 'today', sel: false },

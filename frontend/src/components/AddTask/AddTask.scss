@@ -8,7 +8,6 @@
         opacity: 0.6;
         cursor: pointer;
 
-
         img {
             width: 14px;
             margin-left: 3.7px;
@@ -31,13 +30,40 @@
         flex-direction: column;
         border: 1px solid gray;
         margin: 10px 0px;
-        padding: 9px 10px;
+        padding: 13px 10px;
         border-radius: 10px;
+        background: #c0c0c07e;
+    }
+
+    &__date {
+        display: flex;
+        justify-content: center;
+
+        img {
+            width: 24px;
+            margin: 18px 19px;
+            padding: 6px;
+            border: 1px solid #2d2d2d;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        img:hover {
+            background: #ffffffc5
+        }
+
+        .active{
+            background: #ffffff;
+        }
     }
 
     &__form {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px;
+    }
+
+    button {
+        margin-top: 0px;
     }
 }
