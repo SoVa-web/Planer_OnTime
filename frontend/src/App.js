@@ -2,12 +2,46 @@ import React from 'react';
 import axios from 'axios';
 import Context from './context';
 import { List, AddList, Content } from './components';
+import './App.css';
 
 function App() {
   const [lists, setLists] = React.useState([]);
   const [selectedList, setSelectedList] = React.useState(null);
   const [isVisibleForm, setFormVisibility] = React.useState(false);
   const isRemovable = true;
+
+  const [googleUserId, setGoogleUserId] = React.useState(null);
+
+  React.useEffect(() => {
+    const onInit = (auth2) => {
+      console.log('init OK', auth2);
+    };
+    const onError = (err) => {
+      console.log('error', err);
+    };
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2
+        .init({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        })
+        .then(onInit, onError);
+    });
+  });
+  function signIn() {
+    const authOK = (user) => {
+      console.log('OK AUTH');
+      setGoogleUserId({
+        googleUserId: user.getBasicProfile().getId(),
+      });
+      console.log(googleUserId);
+    };
+
+    const authErr = () => {
+      console.log('err with auth');
+    };
+    const GoogleAuth = window.gapi.auth2.getAuthInstance();
+    GoogleAuth.signIn().then(authOK, authErr);
+  }
 
   function getData() {
     axios
@@ -122,6 +156,19 @@ function App() {
         onChangeImpTask,
       }}
     >
+      <header className="App-header">ON TIME</header>
+      {!googleUserId && (
+        <div>
+          <div id="infoAuth">
+            <div>Виконай все вчасно</div>
+            <div>Виконайте вхід з Google</div>
+          </div>
+          <button type="button" onClick={signIn}>
+            Log In
+          </button>
+        </div>
+      )}
+
       <div className="planner">
         <div className="planner__sidebar">
           <List

@@ -1,0 +1,19 @@
+.App-header {
+    background-color: violet;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content:center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    font-family: cursive;
+    font-size: 50px;
+    color: "black";
+    margin-top:0;
+    margin-bottom:0;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 24px;
+  }
+  

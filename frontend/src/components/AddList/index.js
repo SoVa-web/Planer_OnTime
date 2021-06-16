@@ -36,7 +36,7 @@ export default function AddList({ onSave, isVisible, setVisibility }) {
             onChange={(ev) => setInputValue(ev.target.value)}
             type="text"
             placeholder="List Name"
-            className="input-place"
+            className="input-place  inputAlign"
           />
           <button type="button" onClick={saveList} className="button">
             Save
