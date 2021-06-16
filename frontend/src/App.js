@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Context from './context';
-import { List, AddList, Content } from './components';
+import { List, AddList, Content, Header } from './components';
 
 function App() {
   const [lists, setLists] = React.useState([]);
@@ -122,40 +122,43 @@ function App() {
         onChangeImpTask,
       }}
     >
-      <div className="planner">
-        <div className="planner__sidebar">
-          <List
-            lists={lists}
-            selectedList={selectedList}
-            isRemovable={isRemovable}
-            onRemove={onRemove}
-            changeFormVisibility={() => setFormVisibility(!isVisibleForm)}
-            onClickList={(selList) => {
-              setSelectedList(selList);
-              //  console.log('selList', selList);
-            }}
-          />
-          <AddList
-            onSave={onSaveList}
-            isVisible={isVisibleForm}
-            setVisibility={() => setFormVisibility(!isVisibleForm)}
-          />
-        </div>
-
-        <div className="planner__content">
-          {
-            // lists[2] && selectedList &&
-            <Content
-              list={selectedList}
+      <div className="base">
+        <Header />
+        <div className="planner">
+          <div className="planner__sidebar">
+            <List
               lists={lists}
-              onChangeTitle={onChangeTitleInList}
-              onAddTask={onAddTask}
-              onRemoveTask={onRemoveTask}
-              onEditTask={onEditTask}
-              onChangeCompTask={onChangeCompTask}
-              onChangeImpTask={onChangeImpTask}
+              selectedList={selectedList}
+              isRemovable={isRemovable}
+              onRemove={onRemove}
+              changeFormVisibility={() => setFormVisibility(!isVisibleForm)}
+              onClickList={(selList) => {
+                setSelectedList(selList);
+                //  console.log('selList', selList);
+              }}
             />
-          }
+            <AddList
+              onSave={onSaveList}
+              isVisible={isVisibleForm}
+              setVisibility={() => setFormVisibility(!isVisibleForm)}
+            />
+          </div>
+
+          <div className="planner__content">
+            {
+              // lists[2] && selectedList &&
+              <Content
+                list={selectedList}
+                lists={lists}
+                onChangeTitle={onChangeTitleInList}
+                onAddTask={onAddTask}
+                onRemoveTask={onRemoveTask}
+                onEditTask={onEditTask}
+                onChangeCompTask={onChangeCompTask}
+                onChangeImpTask={onChangeImpTask}
+              />
+            }
+          </div>
         </div>
       </div>
     </Context.Provider>

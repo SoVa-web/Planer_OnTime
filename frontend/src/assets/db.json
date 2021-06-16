@@ -15,10 +15,6 @@
     {
       "id": 13,
       "name": "English"
-    },
-    {
-      "name": "hj",
-      "id": 14
     }
   ],
   "tasks": [
@@ -188,17 +184,6 @@
       "id": 99
     },
     {
-      "listId": 14,
-      "title": "hjh",
-      "creationDate": 1621371600000,
-      "deadline": 1621371600000,
-      "compDate": 1623531600000,
-      "important": true,
-      "completed": false,
-      "deleteDate": null,
-      "id": 201
-    },
-    {
       "listId": 1,
       "title": "FDD",
       "creationDate": 1621371600000,
@@ -219,28 +204,6 @@
       "completed": false,
       "deleteDate": null,
       "id": 203
-    },
-    {
-      "listId": 14,
-      "title": "Hello",
-      "creationDate": 1623618000000,
-      "deadline": 1623618000000,
-      "compDate": null,
-      "important": true,
-      "completed": false,
-      "deleteDate": null,
-      "id": 204
-    },
-    {
-      "listId": 14,
-      "title": "Last",
-      "creationDate": 1623618000000,
-      "deadline": 1626123600000,
-      "compDate": null,
-      "important": false,
-      "completed": false,
-      "deleteDate": null,
-      "id": 207
     },
     {
       "listId": 1,
@@ -302,22 +265,11 @@
       "title": "fdfdf",
       "creationDate": 1623618000000,
       "deadline": 1626123600000,
-      "compDate": null,
+      "compDate": 1623790800000,
       "important": true,
       "completed": false,
       "deleteDate": null,
       "id": 214
-    },
-    {
-      "listId": 14,
-      "title": "Helloj",
-      "creationDate": 1623704400000,
-      "deadline": 1624222800000,
-      "compDate": null,
-      "important": true,
-      "completed": false,
-      "deleteDate": null,
-      "id": 215
     },
     {
       "listId": 13,
@@ -329,17 +281,6 @@
       "completed": false,
       "deleteDate": null,
       "id": 217
-    },
-    {
-      "listId": 14,
-      "title": "k",
-      "creationDate": 1623704400000,
-      "deadline": 1623704400000,
-      "compDate": 1623704400000,
-      "important": false,
-      "completed": true,
-      "deleteDate": null,
-      "id": 218
     }
   ]
 }

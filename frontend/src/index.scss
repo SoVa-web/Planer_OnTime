@@ -14,22 +14,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.planner {
+.base {
   position: absolute;
-  display: flex;
   left: 50%;
-  top: 50%;
+  top: 55%;
   width: 750px;
-  height: 530px;
+  height: 610px;
   transform: translate(-50%, -59%);
-  box-shadow: 1px 2px 12px #acacac;
-  border-radius: 8px;
+  box-shadow: 1px 2px 10px #5e516694;
+  border-radius: 10px;
+}
+
+.planner {
+    
+  display: flex;
+  height: 530px;
 
   &__sidebar {
     background-color: #ebebeb;
     width: 200px;
-    border-right: 1px solid #c2c2c2;
-    padding: 40px 20px;
+    border-right: 1px solid #481f5f;
+    padding: 20px 20px;
 
     hr {
       margin: 15px 0px;
@@ -37,10 +42,14 @@ body {
   }
 
   &__content {
-    flex: 1;
+    flex: 1 1;
     overflow: auto;
-    padding: 60px 40px 60px 60px;
+    padding: 25px 40px 60px 60px;
   }
+}
+
+hr {
+  background: #79279e;
 }
 
 .input-place {
