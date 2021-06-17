@@ -25,8 +25,8 @@ function App() {
           client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         })
         .then(onInit, onError);
-    });
-  });
+    })
+  }, [])
   function signIn() {
     const authOK = (user) => {
       console.log('OK AUTH');
@@ -41,6 +41,15 @@ function App() {
     };
     const GoogleAuth = window.gapi.auth2.getAuthInstance();
     GoogleAuth.signIn().then(authOK, authErr);
+  }
+
+  function signOut() {
+    const out = () => {
+      setGoogleUserId(null)
+    }
+    const GoogleAuth = window.gapi.auth2.getAuthInstance()
+    GoogleAuth.signOut().then(out)
+    console.log("out out out", googleUserId)
   }
 
   function getData() {
@@ -153,10 +162,19 @@ function App() {
         onRemoveTask,
         onEditTask,
         onChangeCompTask,
-        onChangeImpTask,
+        onChangeImpTask
       }}
     >
       <header className="App-header">ON TIME</header>
+      <div>
+      {googleUserId && (
+        <div>
+          <div id="infoAuth">Таски</div>
+          <button type="button" onClick={signOut}>
+            Log Out
+          </button>
+        </div>
+      )}
       {!googleUserId && (
         <div>
           <div id="infoAuth">
@@ -168,7 +186,7 @@ function App() {
           </button>
         </div>
       )}
-
+      </div>
       <div className="planner">
         <div className="planner__sidebar">
           <List
