@@ -10,7 +10,8 @@ function App() {
   const [isVisibleForm, setFormVisibility] = React.useState(false);
   const isRemovable = true;
 
-  const [googleUserId, setGoogleUserId] = React.useState(null);
+  /* const [googleUserId, setGoogleUserId] = React.useState(null); */
+  const [userInfo, setUserInfo] = React.useState(null)
 
   React.useEffect(() => {
     const onInit = (auth2) => {
@@ -25,15 +26,18 @@ function App() {
           client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         })
         .then(onInit, onError);
-    })
-  }, [])
+    });
+  }, []);
   function signIn() {
     const authOK = (user) => {
       console.log('OK AUTH');
-      setGoogleUserId({
+      setUserInfo({
         googleUserId: user.getBasicProfile().getId(),
+        name:user.getBasicProfile().getName(),
+        imgUrl:user.getBasicProfile().getImgUrl(),
+        email:user.getBasicProfile().getEmail()
       });
-      console.log(googleUserId);
+      console.log(userInfo);
     };
 
     const authErr = () => {
@@ -45,11 +49,11 @@ function App() {
 
   function signOut() {
     const out = () => {
-      setGoogleUserId(null)
-    }
-    const GoogleAuth = window.gapi.auth2.getAuthInstance()
-    GoogleAuth.signOut().then(out)
-    console.log("out out out", googleUserId)
+      setUserInfo(null);
+    };
+    const GoogleAuth = window.gapi.auth2.getAuthInstance();
+    GoogleAuth.signOut().then(out);
+    console.log('out out out', userInfo);
   }
 
   function getData() {
@@ -162,30 +166,30 @@ function App() {
         onRemoveTask,
         onEditTask,
         onChangeCompTask,
-        onChangeImpTask
+        onChangeImpTask,
       }}
     >
       <header className="App-header">ON TIME</header>
       <div>
-      {googleUserId && (
-        <div>
-          <div id="infoAuth">Таски</div>
-          <button type="button" onClick={signOut}>
-            Log Out
-          </button>
-        </div>
-      )}
-      {!googleUserId && (
-        <div>
-          <div id="infoAuth">
-            <div>Виконай все вчасно</div>
-            <div>Виконайте вхід з Google</div>
+        {!!userInfo && (
+          <div>
+            <div id="infoAuth">Таски</div>
+            <button type="button" onClick={signOut}>
+              Log Out
+            </button>
           </div>
-          <button type="button" onClick={signIn}>
-            Log In
-          </button>
-        </div>
-      )}
+        )}
+        {!userInfo && (
+          <div>
+            <div id="infoAuth">
+              <div>Виконай все вчасно</div>
+              <div>Виконайте вхід з Google</div>
+            </div>
+            <button type="button" onClick={signIn}>
+              Log In
+            </button>
+          </div>
+        )}
       </div>
       <div className="planner">
         <div className="planner__sidebar">
@@ -199,19 +203,24 @@ function App() {
               setSelectedList(selList);
               console.log('selList', selList);
             }}
+            userInfo = {userInfo}
           />
+         {!!userInfo && 
           <AddList
             onSave={onSaveList}
             isVisible={isVisibleForm}
             setVisibility={() => setFormVisibility(!isVisibleForm)}
-          />
+          />}
         </div>
 
         <div className="planner__content">
-          {console.log(selectedList)}
           {
-            // lists[2] && selectedList &&
-            <Content
+            !userInfo && 
+            <div>Вітаємо, здійсни авторизацію з Google та виконуй все вчасно (^_^)</div>
+          }
+          {console.log(selectedList)}
+            {// lists[2] && selectedList &&
+            !!userInfo && <Content
               list={selectedList}
               lists={lists}
               onChangeTitle={onChangeTitleInList}
@@ -220,8 +229,7 @@ function App() {
               onEditTask={onEditTask}
               onChangeCompTask={onChangeCompTask}
               onChangeImpTask={onChangeImpTask}
-            />
-          }
+            />}
         </div>
       </div>
     </Context.Provider>

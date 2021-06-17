@@ -22,6 +22,7 @@ export default function List({
   onRemove,
   selectedList,
   changeFormVisibility,
+  userInfo
 }) {
   function icons(itemId) {
     switch (itemId) {
@@ -187,7 +188,7 @@ export default function List({
       </ul>
 
       <hr />
-      <ul className="list">
+      {!!userInfo && <ul className="list">
         {lists &&
           lists.map((list) =>
             list.name !== 'Base' ? (
@@ -220,7 +221,14 @@ export default function List({
           <i>{icons(7)}</i>
           <span>Add List</span>
         </li>
-      </ul>
+      </ul>}
+      {!userInfo && 
+        <ul className="list">
+        <li key="addlist" onClick={changeFormVisibility}>
+          <i>{icons(7)}</i>
+          <span>Add List</span>
+        </li>
+        </ul>}
     </nav>
   );
 }
