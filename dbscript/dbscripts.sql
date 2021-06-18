@@ -256,3 +256,75 @@ begin
 	end if;
 end
 $function$
+
+CREATE OR REPLACE FUNCTION public.setOrUpdatePomoSettings(gid character varying,
+												pomoD integer,
+												shortBD integer,
+												longBD integer,
+												longBEvery integer,
+                                                dailyFG integer)
+ RETURNS text
+ LANGUAGE plpgsql
+AS $function$	
+begin
+	if (select (select count(userID) from pomoSettings where userID = gID)) = 0 then 
+		insert into pomoSettings(userID, pomoDur, shortBreakDur, longBreakDur, longBreakEvery, dailyFocusGoal)
+		values (gID, pomoD, shortBD, longBD, longBEvery, dailyFG);
+		return 'pomo settings saved';
+	else
+		update pomoSettings set pomoDur = pomoD where userID = gID;
+		update pomoSettings set shortBreakDur = shortBD where userID = gID;
+		update pomoSettings set longBreakDur = longBD where userID = gID;
+		update pomoSettings set longBreakEvery = longBEvery where userID = gID;
+		update pomoSettings set dailyFocusGoal = dailyFG where userID = gID;
+		return 'pomo settings updated';
+	end if;
+end
+$function$
+
+CREATE OR REPLACE FUNCTION public.getPomoSettings(gId character varying)
+ RETURNS TABLE(pomoDur integer, shortBreakDur integer, longBreakDur integer, longBreakEvery integer, dailyFocusGoal integer)
+ LANGUAGE sql
+AS $function$ 
+	select   distinct 
+	pomoSettings.pomoDur,  pomoSettings.shortBreakDur,  pomoSettings.longBreakDur,  pomoSettings.longBreakEvery, 
+	pomoSettings.dailyFocusGoal
+	from "user" 
+	inner join pomoSettings on "user".googleID=pomoSettings.userID
+	where "user".googleID=gId
+$function$
+
+CREATE OR REPLACE FUNCTION public.setOrUpdatePomoState(gid character varying,
+												statusPomo boolean,
+												startTimePomo bigint,
+												total integer)
+ RETURNS text
+ LANGUAGE plpgsql
+AS $function$	
+begin
+	if (select (select count(userID) from pomoState where userID = gID)) = 0 then 
+		insert into pomoState(userID, "state", startTime, totalPomo)
+		values (gID, statusPomo, startTimePomo, total);
+		return 'pomo state saved';
+	else
+		update pomoState set "state" = statusPomo where userID = gID;
+		update pomoState set startTime = startTimePomo where userID = gID;
+		update pomoState set totalPomo = total where userID = gID;
+		return 'pomo state updated';
+	end if;
+end
+$function$
+
+
+
+
+CREATE OR REPLACE FUNCTION public.getPomoState(gId character varying)
+ RETURNS TABLE("status" boolean, startTime bigint, totalPomo integer)
+ LANGUAGE sql
+AS $function$ 
+	select   distinct 
+	pomoState."status",  pomoState.startTime,  pomoState.totalPomo
+	from "user" 
+	inner join pomoState on "user".googleID=pomoState.userID
+	where "user".googleID=gId
+$function$

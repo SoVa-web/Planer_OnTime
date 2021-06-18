@@ -11,7 +11,7 @@ function App() {
   const isRemovable = true;
 
   /* const [googleUserId, setGoogleUserId] = React.useState(null); */
-  const [userInfo, setUserInfo] = React.useState(null)
+  const [userInfo, setUserInfo] = React.useState(null);
 
   React.useEffect(() => {
     const onInit = (auth2) => {
@@ -33,9 +33,9 @@ function App() {
       console.log('OK AUTH');
       setUserInfo({
         googleUserId: user.getBasicProfile().getId(),
-        name:user.getBasicProfile().getName(),
-        imgUrl:user.getBasicProfile().getImgUrl(),
-        email:user.getBasicProfile().getEmail()
+        name: user.getBasicProfile().getName(),
+        imgUrl: user.getBasicProfile().getImageUrl(),
+        email: user.getBasicProfile().getEmail(),
       });
       console.log(userInfo);
     };
@@ -203,33 +203,39 @@ function App() {
               setSelectedList(selList);
               console.log('selList', selList);
             }}
-            userInfo = {userInfo}
+            userInfo={userInfo}
           />
-         {!!userInfo && 
-          <AddList
-            onSave={onSaveList}
-            isVisible={isVisibleForm}
-            setVisibility={() => setFormVisibility(!isVisibleForm)}
-          />}
+          {!!userInfo && (
+            <AddList
+              onSave={onSaveList}
+              isVisible={isVisibleForm}
+              setVisibility={() => setFormVisibility(!isVisibleForm)}
+            />
+          )}
         </div>
 
         <div className="planner__content">
-          {
-            !userInfo && 
-            <div>Вітаємо, здійсни авторизацію з Google та виконуй все вчасно (^_^)</div>
-          }
+          {!userInfo && (
+            <div>
+              Вітаємо, здійсни авторизацію з Google та виконуй все вчасно (^_^)
+            </div>
+          )}
           {console.log(selectedList)}
-            {// lists[2] && selectedList &&
-            !!userInfo && <Content
-              list={selectedList}
-              lists={lists}
-              onChangeTitle={onChangeTitleInList}
-              onAddTask={onAddTask}
-              onRemoveTask={onRemoveTask}
-              onEditTask={onEditTask}
-              onChangeCompTask={onChangeCompTask}
-              onChangeImpTask={onChangeImpTask}
-            />}
+          {
+            // lists[2] && selectedList &&
+            !!userInfo && (
+              <Content
+                list={selectedList}
+                lists={lists}
+                onChangeTitle={onChangeTitleInList}
+                onAddTask={onAddTask}
+                onRemoveTask={onRemoveTask}
+                onEditTask={onEditTask}
+                onChangeCompTask={onChangeCompTask}
+                onChangeImpTask={onChangeImpTask}
+              />
+            )
+          }
         </div>
       </div>
     </Context.Provider>
