@@ -189,7 +189,14 @@ export default function List({
 
       <hr />
       {!!userInfo && (
+        <>
         <ul className="list">
+        <li key="addlist" onClick={changeFormVisibility}>
+            <i>{icons(7)}</i>
+            <span>Add List</span>
+          </li>
+        </ul>
+        <ul className="list userList">
           {lists &&
             lists.map((list) =>
               list.name !== 'Base' ? (
@@ -218,11 +225,8 @@ export default function List({
                 <span key={list.id} />
               ),
             )}
-          <li key="addlist" onClick={changeFormVisibility}>
-            <i>{icons(7)}</i>
-            <span>Add List</span>
-          </li>
         </ul>
+        </>
       )}
       {!userInfo && (
         <ul className="list">

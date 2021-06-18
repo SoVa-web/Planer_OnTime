@@ -51,3 +51,22 @@ a {
   color: #000 !important;
   text-decoration: none;
 }
+
+.userList{
+  overflow-y: scroll;
+    height: 162px;
+}
+
+.userList::-webkit-scrollbar {
+  width: 12px;
+  background-color: rgb(231, 231, 231);
+  border: 2px solid;
+  border-color: rgb(247, 233, 245);
+  border-radius:25px ;
+}
+.userList::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 25px;
+  border: 1px solid;
+  border-color: rgb(216, 174, 210);
+}

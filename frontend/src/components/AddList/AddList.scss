@@ -7,8 +7,10 @@
          background-color: white;
          padding: 22px 18px 16px 18px;
          border: 2px solid #eae8e8;
-         width: 100%;
-         position: relative;
+         position: absolute;
+         top: 60%;
+         bottom: auto;
+         left: 220px;
     }
     &-close-btn {
         position:absolute;
