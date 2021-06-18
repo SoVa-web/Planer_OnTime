@@ -195,27 +195,27 @@ function App() {
               userInfo={userInfo}
             />
             {!!userInfo && (
-            <AddList
-              onSave={onSaveList}
-              isVisible={isVisibleForm}
-              setVisibility={() => setFormVisibility(!isVisibleForm)}
-            />
+              <AddList
+                onSave={onSaveList}
+                isVisible={isVisibleForm}
+                setVisibility={() => setFormVisibility(!isVisibleForm)}
+              />
             )}
           </div>
 
           <div className="planner__content">
-          {!userInfo && (
-            <div>
-            <div>
-              Вітаємо, здійсни авторизацію з Google та виконуй все вчасно (^_^)
-            </div>
-            <button type="button" className="logIn" onClick={signIn}>
-              Log In
-            </button>
-            </div>
-          )}
-            {
-              !!userInfo && (
+            {!userInfo && (
+              <div>
+                <div>
+                  Вітаємо, здійсни авторизацію з Google та виконуй все вчасно
+                  (^_^)
+                </div>
+                <button type="button" className="logIn" onClick={signIn}>
+                  Log In
+                </button>
+              </div>
+            )}
+            {!!userInfo && (
               // lists[2] && selectedList &&
               <Content
                 list={selectedList}
@@ -226,8 +226,8 @@ function App() {
                 onEditTask={onEditTask}
                 onChangeCompTask={onChangeCompTask}
                 onChangeImpTask={onChangeImpTask}
-              />)
-            }
+              />
+            )}
           </div>
         </div>
       </div>

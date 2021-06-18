@@ -22,7 +22,7 @@ export default function List({
   onRemove,
   selectedList,
   changeFormVisibility,
-  userInfo
+  userInfo,
 }) {
   function icons(itemId) {
     switch (itemId) {
@@ -189,40 +189,40 @@ export default function List({
 
       <hr />
       {!!userInfo && (
-      <ul className="list">
-        {lists &&
-          lists.map((list) =>
-            list.name !== 'Base' ? (
-              <Link key={list.id} to={'/userList' + list.id}>
-                <li
-                  key={list.id}
-                  className={classNames({
-                    active: selectedList && selectedList.id === list.id,
-                  })}
-                  onClick={() => onClickUserList(list)}
-                >
-                  <i>{icons(8)}</i>
-                  <span>{list.name}</span>
+        <ul className="list">
+          {lists &&
+            lists.map((list) =>
+              list.name !== 'Base' ? (
+                <Link key={list.id} to={'/userList' + list.id}>
+                  <li
+                    key={list.id}
+                    className={classNames({
+                      active: selectedList && selectedList.id === list.id,
+                    })}
+                    onClick={() => onClickUserList(list)}
+                  >
+                    <i>{icons(8)}</i>
+                    <span>{list.name}</span>
 
-                  <i>
-                    <img
-                      src={RemoveSVg}
-                      onClick={() => removeConf(list)}
-                      alt="remove"
-                      className="remove-list"
-                    />
-                  </i>
-                </li>
-              </Link>
-            ) : (
-              <span key={list.id} />
-            ),
-          )}
-        <li key="addlist" onClick={changeFormVisibility}>
-          <i>{icons(7)}</i>
-          <span>Add List</span>
-        </li>
-      </ul>
+                    <i>
+                      <img
+                        src={RemoveSVg}
+                        onClick={() => removeConf(list)}
+                        alt="remove"
+                        className="remove-list"
+                      />
+                    </i>
+                  </li>
+                </Link>
+              ) : (
+                <span key={list.id} />
+              ),
+            )}
+          <li key="addlist" onClick={changeFormVisibility}>
+            <i>{icons(7)}</i>
+            <span>Add List</span>
+          </li>
+        </ul>
       )}
       {!userInfo && (
         <ul className="list">
