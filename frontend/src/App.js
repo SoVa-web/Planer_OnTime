@@ -9,6 +9,52 @@ function App() {
   const [isVisibleForm, setFormVisibility] = React.useState(false);
   const isRemovable = true;
   // console.log('SelListrr', selectedList);
+
+  const [userInfo, setUserInfo] = React.useState(null);
+
+  React.useEffect(() => {
+    const onInit = (auth2) => {
+      console.log('init OK', auth2);
+    };
+    const onError = (err) => {
+      console.log('error', err);
+    };
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2
+        .init({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        })
+        .then(onInit, onError);
+    });
+  }, []);
+  function signIn() {
+    const authOK = (user) => {
+      console.log('OK AUTH');
+      setUserInfo({
+        googleUserId: user.getBasicProfile().getId(),
+        name: user.getBasicProfile().getName(),
+        imgUrl: user.getBasicProfile().getImageUrl(),
+        email: user.getBasicProfile().getEmail(),
+      });
+      console.log(userInfo);
+    };
+
+    const authErr = () => {
+      console.log('err with auth');
+    };
+    const GoogleAuth = window.gapi.auth2.getAuthInstance();
+    GoogleAuth.signIn().then(authOK, authErr);
+  }
+
+  function signOut() {
+    const out = () => {
+      setUserInfo(null);
+    };
+    const GoogleAuth = window.gapi.auth2.getAuthInstance();
+    GoogleAuth.signOut().then(out);
+    console.log('out out out', userInfo);
+  }
+
   function getData() {
     axios
       .get('http://localhost:3001/lists?_embed=tasks')
@@ -122,6 +168,16 @@ function App() {
         onChangeImpTask,
       }}
     >
+      <div>
+        {!!userInfo && (
+          <div>
+            <div id="infoAuth">Таски</div>
+            <button type="button" onClick={signOut}>
+              Log Out
+            </button>
+          </div>
+        )}
+      </div>
       <div className="base">
         <Header />
         <div className="planner">
@@ -136,16 +192,30 @@ function App() {
                 setSelectedList(selList);
                 //  console.log('selList', selList);
               }}
+              userInfo={userInfo}
             />
+            {!!userInfo && (
             <AddList
               onSave={onSaveList}
               isVisible={isVisibleForm}
               setVisibility={() => setFormVisibility(!isVisibleForm)}
             />
+            )}
           </div>
 
           <div className="planner__content">
+          {!userInfo && (
+            <div>
+            <div>
+              Вітаємо, здійсни авторизацію з Google та виконуй все вчасно (^_^)
+            </div>
+            <button type="button" className="logIn" onClick={signIn}>
+              Log In
+            </button>
+            </div>
+          )}
             {
+              !!userInfo && (
               // lists[2] && selectedList &&
               <Content
                 list={selectedList}
@@ -156,7 +226,7 @@ function App() {
                 onEditTask={onEditTask}
                 onChangeCompTask={onChangeCompTask}
                 onChangeImpTask={onChangeImpTask}
-              />
+              />)
             }
           </div>
         </div>

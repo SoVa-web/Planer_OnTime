@@ -22,6 +22,7 @@ export default function List({
   onRemove,
   selectedList,
   changeFormVisibility,
+  userInfo
 }) {
   function icons(itemId) {
     switch (itemId) {
@@ -187,6 +188,7 @@ export default function List({
       </ul>
 
       <hr />
+      {!!userInfo && (
       <ul className="list">
         {lists &&
           lists.map((list) =>
@@ -221,6 +223,15 @@ export default function List({
           <span>Add List</span>
         </li>
       </ul>
+      )}
+      {!userInfo && (
+        <ul className="list">
+          <li key="addlist">
+            <i>{icons(7)}</i>
+            <span>Add List</span>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 }
