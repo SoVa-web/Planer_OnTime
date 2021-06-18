@@ -22,6 +22,7 @@ export default function Tasks({ list, listName }) {
     onChangeCompTask,
     onChangeImpTask,
   } = useContext(Context);
+
   const changeTitle = () => {
     // eslint-disable-next-line no-alert
     const newTitle = window.prompt('Title name', list.name);

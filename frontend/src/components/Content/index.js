@@ -2,6 +2,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Tasks from '../Tasks';
+import Pomodoro from '../Pomodoro';
 
 // import './Tasks.scss';
 
@@ -31,7 +32,7 @@ export default function Content({ lists }) {
           {baseList && <PlannedTasks selList={baseList} />}
         </Route>
         <Route path="/pomodoro">
-          <h1>Hello, this is pomodoro</h1>
+          <Pomodoro />
         </Route>
 
         {lists.map((list) => (
@@ -48,7 +49,8 @@ function WeekTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
   newList.tasks = newList.tasks.filter(
     (task) =>
-      task.deadline <= Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6,
+      task.deadline <= Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6 &&
+      !task.deleteDate,
   );
   return <Tasks list={newList} listName="Week" />;
 }
@@ -56,30 +58,39 @@ function WeekTasks({ selList }) {
 function DayTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
   newList.tasks = newList.tasks.filter(
-    (task) => task.deadline <= Number(new Date().setHours(0, 0, 0, 0)),
+    (task) =>
+      task.deadline <= Number(new Date().setHours(0, 0, 0, 0)) &&
+      !task.deleteDate,
   );
   return <Tasks list={newList} listName="Today" />;
 }
 
 function ImportantTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
-  newList.tasks = newList.tasks.filter((task) => task.important);
+  newList.tasks = newList.tasks.filter(
+    (task) => task.important && !task.deleteDate,
+  );
   return <Tasks list={newList} listName="Important" />;
 }
 
 function AffairsTasks({ selList }) {
-  return <Tasks list={selList} listName="Affairs" />;
+  const newList = JSON.parse(JSON.stringify(selList));
+  newList.tasks = newList.tasks.filter((task) => !task.deleteDate);
+  return <Tasks list={newList} listName="Affairs" />;
 }
 
 function PlannedTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
   newList.tasks = newList.tasks.filter(
     (task) =>
-      task.deadline > Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6,
+      task.deadline > Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6 &&
+      !task.deleteDate,
   );
   return <Tasks list={newList} listName="Planned" />;
 }
 
 function ShowTasks({ selList }) {
-  return <Tasks list={selList} />;
+  const newList = JSON.parse(JSON.stringify(selList));
+  newList.tasks = newList.tasks.filter((task) => !task.deleteDate);
+  return <Tasks list={newList} />;
 }
