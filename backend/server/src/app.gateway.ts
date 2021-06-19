@@ -1,130 +1,98 @@
 import {
-  SubscribeMessage,
-  WebSocketGateway,
-  OnGatewayInit,
-  WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  OnGatewayInit,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
-import { Socket, Server } from 'socket.io';
-
+import { Server, Socket } from 'socket.io';
 import { Pool } from 'pg';
+import '../interfaces/interfaces';
 
-Object.prototype['renameProperty'] = function(
-  oldName: string,
-  newName: string,
-) {
-  if (oldName === newName) {
-    return this;
-  }
-  if (this.hasOwnProperty(oldName)) {
-    this[newName] = this[oldName];
-    delete this[oldName];
-  }
-  return this;
-};
+import { config } from './bdconfig';
 
-const config = {
-};
-
-const pool = new Pool(config);
-
-//приведення даних з бд в правильний вид
-function dataSuitier(lists, notes) {
+function migrate(lists: List[], notes: Note[]): IDataSuitier {
   const res = {
-    lists: lists,
-    notes: notes,
+    lists: [],
+    notes: [],
   };
-  res.notes.forEach((note) => {
-    note.renameProperty('noteid', 'id');
-    note.renameProperty('listid', 'listId');
-    note.renameProperty('notename', 'noteName');
-    note.renameProperty('datecreate', 'dateCreate');
-    note.renameProperty('datecomplation', 'dateComplation');
+  if (lists.length === 0 && notes.length === 0) {
+    return res;
+  }
+  lists.forEach((list) => {
+    res['lists'].push({
+      id: list.listid,
+      listName: list.listname,
+    });
   });
-  res.lists.forEach((list) => {
-    list.renameProperty('listid', 'id');
-    list.renameProperty('listname', 'listName');
+  notes.forEach((note) => {
+    res.notes.push({
+      listId: note.listid,
+      id: note.noteid,
+      noteName: note.notename,
+      dateCreate: note.datecreate,
+      deadline: note.deadline,
+      dateComplation: note.datecomplation,
+      important: note.important,
+      status: note.status,
+    });
   });
   return res;
 }
 
-function getListsAndNotesFromDB(user: string) {
-  const promise = new Promise(function(resolve) {
-    pool.query(`select *
-                from gettingNotes('${user}')`, (err, notes) => {
-      resolve(notes.rows);
-    });
-  });
-  return promise
-    .then(function(notes) {
-      return new Promise(function(resolve) {
-        pool.query(`select *
-                    from gettingLists('${user}')`, (err, lists) => {
-          resolve([notes, lists.rows]);
-        });
-      });
-    })
-    .then(function(notesAndLists) {
-      return dataSuitier(notesAndLists[1], notesAndLists[0]);
-    });
+export const pool = new Pool(config);
+
+// функції які повертають дані з бд
+async function getListsAndNotesFromDB(user: IUserID): Promise<IDataSuitier> {
+  const notes = await pool.query(`select *
+                                  from gettingNotes('${user}')`);
+  const lists = await pool.query(`select *
+                                  from gettingLists('${user}')`);
+  return await migrate(lists.rows, notes.rows);
 }
 
-function createNote(data: {
-  googleIdentify: number;
-  noteName: string;
-  createDate: number;
-  deadlineTask: number;
-  importantTask: boolean;
-  statusComp: boolean;
-  idlist?: number | null;
-}) {
-  const promise = new Promise(function(resolve) {
-    pool.query(
-      `select *
-       from settingNote('${data.googleIdentify}',
-                        '${data.noteName}',
-                        '${data.createDate}',
-                        '${data.deadlineTask}',
-                        '${+data.importantTask}',
-                        '${+data.statusComp}'
-                            ${data.idlist ? `,'${data.idlist}'` : ''})`,
-      (err, id) => {
-        if (err) {
-          resolve(-1);
-          return;
-        }
-        console.log(id.rows);
-        resolve(id.rows);
-      },
-    );
-  });
-  return promise.then(function(id) {
-    return id;
-  });
+async function createNote(data: ICreateNoteData): Promise<number> {
+  return await pool.query(
+    `select *
+     from settingNote('${data.googleIdentify}',
+                      '${data.noteName}',
+                      '${data.createDate}',
+                      '${data.deadlineTask}',
+                      '${+data.importantTask}',
+                      '${+data.statusComp}'
+                          ${data.idlist ? `,'${data.idlist}'` : ''})`,
+  );
 }
 
-async function createList(data: { googleIdentify: number; nameList: string; }) {
+async function createList(data: ICreateList) {
   const listID = await pool.query(`select *
                                    from settingList('${data.googleIdentify}', '${data.nameList}')`);
   return listID.rows;
 }
 
-async function updateList(data: { googleIdentify: number; nameList: string; }) {
+async function updateList(data: IUpdateList) {
   const res = await pool.query(`select *
-                                   from updateList('${data.googleIdentify}', '${data.nameList}')`);
+                                from updateList('${data.googleIdentify}', '${data.id}', '${data.nameList}')`);
   return res.rows;
 }
 
-async function deleteList(data: { googleIdentify: number; nameList: string; dataDelete:number }) {
+async function deleteList(data: IDelList) {
   const res = await pool.query(`select *
-                                   from deleteList('${data.googleIdentify}', '${data.nameList}', '${data.dataDelete}')`);
+                                from deleteList('${data.googleIdentify}', '${data.id}', '${data.dataDelete}')`);
   return res.rows;
 }
-async function deleteNote(data: { googleIdentify: number; id: number; dataDelete: number }) {
+
+async function deleteNote(data: IDelNote) {
   const res = await pool.query(`select *
-                                   from deleteNote('${data.googleIdentify}', '${data.id}', '${data.dataDelete}')`);
+                                from deleteNote('${data.googleIdentify}', '${data.id}', '${data.dataDelete}')`);
+  return res.rows;
+}
+
+async function updateNote(data: IUpdateNote): Promise<void> {
+  const res = await pool.query(`select *
+                                from updateNote('${data.googleIdentify}', '${data.id}', '${data.noteName}', '${data.deadlineTask}', '${data.dateComplation}', '${data.importantTask}')`);
   return res.rows;
 }
 
@@ -148,106 +116,70 @@ export class AppGateway
   }
 
   @SubscribeMessage('get_lists_and_notes')
-  handleList(client: Socket, user: string) {
-    const serv = this.server;
-    client.join(`${user}`);
-    const promise = new Promise(function(resolve) {
-      const t = getListsAndNotesFromDB(user);
-      resolve(t);
-    });
-    promise.then(function(datafrombd) {
-      console.log(datafrombd);
-      serv.to(user).emit('data', datafrombd);
-    });
+  async handleList(client: Socket, user: IUserID) {
+    await client.join(`${user}`);
+    const datafrombd = await getListsAndNotesFromDB(user);
+    console.log(datafrombd);
+    console.log(client.id);
+    await this.server.to(`${client.id}`).emit('data', datafrombd);
   }
 
   @SubscribeMessage('createNote')
-  async handleCreateNote(client: Socket, data: {
-                           googleIdentify: number;
-                           noteName: string;
-                           createDate: number;
-                           deadlineTask: number;
-                           importantTask: boolean;
-                           statusComp: boolean;
-                           idlist?: number | null;
-                         },
-  ): Promise<void> {
-    const serv = this.server;
+  async handleCreateNote(client: Socket, data: ICreateNoteData): Promise<void> {
     await client.join(`${data.googleIdentify}`);
     const datafrombd = await createNote(data);
-    await serv.to(`${data.googleIdentify}`).emit('dataUPD', datafrombd);
+    await this.server.to(`${data.googleIdentify}`).emit('dataUPD', datafrombd);
   }
 
   @SubscribeMessage('updateNote')
-  async handlerNoteUPD(client: Socket, data: {
-    googleIdentify: number;
-    id: number;
-    noteName: string;
-    deadlineTask: number|null;
-    dateComplation: number|null;
-    importantTask: boolean;
-  }) {
-    /* .................. */
+  async handlerNoteUPD(client: Socket, data: IUpdateNoteData) {
+    const serv = this.server;
+    await client.join(`${data.googleIdentify}`);
+    const datafrombd = await updateNote(data);
+    await serv
+      .to(`${data.googleIdentify}`)
+      .emit('noteUPD', datafrombd[0][Object.keys(datafrombd[0])]);
   }
 
   @SubscribeMessage('deleteNote')
-  async handleNoteDelete(
-    client: Socket,
-    data: {
-      googleIdentify: number;
-      id: number;
-      dataDelete: number;
-    },
-  ): Promise<void> {
+  async handleNoteDelete(client: Socket, data: IDelNote): Promise<void> {
     console.log('started deleting note');
-    const serv = this.server;
     await client.join(`${data.googleIdentify}`);
-    let id = await deleteNote(data);
-    serv.to(`${data.googleIdentify}`).emit('noteDeleted', id[0][Object.keys(id[0])]);
+    const id = await deleteNote(data);
+    this.server
+      .to(`${data.googleIdentify}`)
+      .emit('noteDeleted', id[0][Object.keys(id[0])]);
   }
 
   @SubscribeMessage('createList')
-  async handleListCreate(
-    client: Socket,
-    data: {
-      googleIdentify: number;
-      nameList: string;
-    },
-  ): Promise<void> {
+  async handleListCreate(client: Socket, data: ICreateList): Promise<void> {
     console.log('started creating list');
     await client.join(`${data.googleIdentify}`);
-    let id = await createList(data);
-    this.server.to(`${data.googleIdentify}`).emit('listCreated', id[0][Object.keys(id[0])]);
+    const id = await createList(data);
+    this.server
+      .to(`${data.googleIdentify}`)
+      .emit('listCreated', id[0][Object.keys(id[0])]);
   }
 
   @SubscribeMessage('updateList')
-  async handleListUPD(
-    client: Socket,
-    data: {
-      googleIdentify: number;
-      nameList: string;
-    },
-  ): Promise<void> {
+  async handleListUPD(client: Socket, data: IUpdateList): Promise<void> {
     console.log('started updating list');
     const serv = this.server;
     await client.join(`${data.googleIdentify}`);
-    let id = await updateList(data);
-    serv.to(`${data.googleIdentify}`).emit('listUpdated', id[0][Object.keys(id[0])]);
+    const id = await updateList(data);
+    serv
+      .to(`${data.googleIdentify}`)
+      .emit('listUpdated', id[0][Object.keys(id[0])]);
   }
 
   @SubscribeMessage('deleteList')
-  async handleListDelete(
-    client: Socket,
-    data: {
-      googleIdentify: number;
-      nameList: string;
-      dataDelete: number;
-    },
-  ): Promise<void> {
+  async handleListDelete(client: Socket, data: IDelList): Promise<void> {
     console.log('started deleting list');
     const serv = this.server;
     await client.join(`${data.googleIdentify}`);
-    let id = await deleteList(data);
-    serv.to(`${data.googleIdentify}`).emit('listDeleted', id[0][Object.keys(id[0])]);
+    const id = await deleteList(data);
+    serv
+      .to(`${data.googleIdentify}`)
+      .emit('listDeleted', id[0][Object.keys(id[0])]);
   }
 }
