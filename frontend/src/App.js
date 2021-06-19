@@ -10,7 +10,7 @@ function App() {
   const isRemovable = true;
   // console.log('SelListrr', selectedList);
 
-  const [userInfo, setUserInfo] = React.useState(null);
+  const [userInfo, setUserInfo] = React.useState(localStorage.getItem("authInfo"));
 
   React.useEffect(() => {
     const onInit = (auth2) => {
@@ -26,7 +26,7 @@ function App() {
         })
         .then(onInit, onError);
     });
-  }, []);
+  });
   function signIn() {
     const authOK = (user) => {
       console.log('OK AUTH');
@@ -37,6 +37,12 @@ function App() {
         email: user.getBasicProfile().getEmail(),
       });
       console.log(userInfo);
+      localStorage.setItem('authInfo', {
+        googleUserId: user.getBasicProfile().getId(),
+        name: user.getBasicProfile().getName(),
+        imgUrl: user.getBasicProfile().getImageUrl(),
+        email: user.getBasicProfile().getEmail(),
+      })
     };
 
     const authErr = () => {
@@ -49,6 +55,7 @@ function App() {
   function signOut() {
     const out = () => {
       setUserInfo(null);
+      localStorage.removeItem("authInfo")
     };
     const GoogleAuth = window.gapi.auth2.getAuthInstance();
     GoogleAuth.signOut().then(out);

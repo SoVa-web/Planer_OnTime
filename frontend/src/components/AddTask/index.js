@@ -121,7 +121,7 @@ export default function AddTask({ onAddTask, list }) {
         <div className="addTask__container">
           <input
             type="text"
-            placeholder="List Name"
+            placeholder="Task Name"
             className="input-place"
             value={inputTitle}
             onChange={(event) => setInputTitle(event.target.value)}
