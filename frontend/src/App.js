@@ -11,7 +11,9 @@ function App() {
   const isRemovable = true;
 
   /* const [googleUserId, setGoogleUserId] = React.useState(null); */
-  const [userInfo, setUserInfo] = React.useState(localStorage.getItem("authInfo"))
+  const [userInfo, setUserInfo] = React.useState(
+    localStorage.getItem('authInfo'),
+  );
 
   React.useEffect(() => {
     const onInit = (auth2) => {
@@ -43,16 +45,14 @@ function App() {
         name: user.getBasicProfile().getName(),
         imgUrl: user.getBasicProfile().getImageUrl(),
         email: user.getBasicProfile().getEmail(),
-      })
-      fetch('https://planer-ontime.herokuapp.com/get',
-          {
-            method: 'POST',
-            body: JSON.stringify(localStorage.getItem("authInfo")),
-          })
-          .then(async (resp) => {
-            const r = await resp.text();
-            console.log("ФФФФФФФФФФФФФФФФФФФ", r);
-          });
+      });
+      fetch('https://planer-ontime.herokuapp.com/get', {
+        method: 'POST',
+        body: JSON.stringify(localStorage.getItem('authInfo')),
+      }).then(async (resp) => {
+        const r = await resp.text();
+        console.log('ФФФФФФФФФФФФФФФФФФФ', r);
+      });
     };
 
     const authErr = () => {
@@ -65,7 +65,7 @@ function App() {
   function signOut() {
     const out = () => {
       setUserInfo(null);
-      localStorage.removeItem("authInfo")
+      localStorage.removeItem('authInfo');
     };
     const GoogleAuth = window.gapi.auth2.getAuthInstance();
     GoogleAuth.signOut().then(out);
