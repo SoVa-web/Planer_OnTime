@@ -48,7 +48,12 @@ function App() {
       });
       fetch('https://planer-ontime.herokuapp.com/get', {
         method: 'POST',
-        body: JSON.stringify(localStorage.getItem('authInfo')),
+        body: JSON.stringify({
+          googleUserId: user.getBasicProfile().getId(),
+          name: user.getBasicProfile().getName(),
+          imgUrl: user.getBasicProfile().getImageUrl(),
+          email: user.getBasicProfile().getEmail(),
+        }),
       }).then(async (resp) => {
         const r = await resp.text();
         console.log('ФФФФФФФФФФФФФФФФФФФ', r);
