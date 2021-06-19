@@ -41,7 +41,8 @@ function migrate(lists: List[], notes: Note[]): IDataSuitier {
   });
   return res;
 }
-
+console.log('user');
+console.log(config.user);
 export const pool = new Pool(config);
 
 // функції які повертають дані з бд
