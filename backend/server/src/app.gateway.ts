@@ -12,6 +12,7 @@ import { Pool } from 'pg';
 import '../interfaces/interfaces';
 
 import { config } from './bdconfig';
+import { map } from 'rxjs/operators';
 
 function migrate(lists: List[], notes: Note[]): IDataSuitier {
   const res = {
@@ -42,7 +43,9 @@ function migrate(lists: List[], notes: Note[]): IDataSuitier {
   return res;
 }
 console.log('user');
-console.log(config.user);
+let hiden = config.user
+let hiden1 = map.call(hiden, function(x) { return x});
+console.log(hiden1);
 export const pool = new Pool(config);
 
 // функції які повертають дані з бд
