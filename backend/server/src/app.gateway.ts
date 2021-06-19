@@ -42,10 +42,7 @@ function migrate(lists: List[], notes: Note[]): IDataSuitier {
   });
   return res;
 }
-console.log('user');
-let hiden = config.user
-let hiden1 = hiden.split('')
-console.log(hiden1);
+
 export const pool = new Pool(config);
 
 // функції які повертають дані з бд

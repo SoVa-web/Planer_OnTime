@@ -68,6 +68,6 @@ describe('AppController (e2e)', () => {
     socket.emit('get_lists_and_notes', 9);
   });
   it('',(done)=>{
-
+    done()
   })
 });
