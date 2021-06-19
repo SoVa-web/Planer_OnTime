@@ -12,7 +12,6 @@ import { Pool } from 'pg';
 import '../interfaces/interfaces';
 
 import { config } from './bdconfig';
-import { map } from 'rxjs/operators';
 
 function migrate(lists: List[], notes: Note[]): IDataSuitier {
   const res = {
@@ -55,16 +54,17 @@ async function getListsAndNotesFromDB(user: IUserID): Promise<IDataSuitier> {
 }
 
 async function createNote(data: ICreateNoteData): Promise<number> {
-  return await pool.query(
+  let datafrombd = await pool.query(
     `select *
      from settingNote('${data.googleIdentify}',
                       '${data.noteName}',
                       '${data.createDate}',
-                      '${data.deadlineTask}',
+                      ${data.deadlineTask},
                       '${+data.importantTask}',
                       '${+data.statusComp}'
                           ${data.idlist ? `,'${data.idlist}'` : ''})`,
   );
+  return datafrombd.rows[0][Object.keys(datafrombd.rows[0])]
 }
 
 async function createList(data: ICreateList) {
@@ -93,7 +93,7 @@ async function deleteNote(data: IDelNote) {
 
 async function updateNote(data: IUpdateNote): Promise<void> {
   const res = await pool.query(`select *
-                                from updateNote('${data.googleIdentify}', '${data.id}', '${data.noteName}', '${data.deadlineTask}', '${data.dateComplation}', '${data.importantTask}')`);
+                                from updateNote('${data.googleIdentify}', '${data.id}', '${data.noteName}', ${data.deadlineTask}, ${data.dateComplation}, '${data.importantTask}')`);
   return res.rows;
 }
 
@@ -147,6 +147,7 @@ export class AppGateway
     console.log('started deleting note');
     await client.join(`${data.googleIdentify}`);
     const id = await deleteNote(data);
+    await console.log(id);
     this.server
       .to(`${data.googleIdentify}`)
       .emit('noteDeleted', id[0][Object.keys(id[0])]);
