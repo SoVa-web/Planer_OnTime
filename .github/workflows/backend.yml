@@ -12,7 +12,7 @@ on:
     
 defaults:
   run:
-    working-directory: ./backend
+    working-directory: ./backend/server
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,8 +34,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn test
+      - run: npm install
+      - run: npm test
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
