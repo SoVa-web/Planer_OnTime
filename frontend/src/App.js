@@ -8,12 +8,9 @@ import { List, AddList, Content } from './components';
 import './App.css';
 
 
-const {io} = import ('https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js');
 
-const socket = io.connect('ws://planer-ontime.herokuapp.com');
+const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
 
-socket.on('connect', console.log('connected'));
-socket.on('disconnect', console.log('disconnected'));
 
 function App() {
   const [lists, setLists] = React.useState([]);
@@ -24,6 +21,18 @@ function App() {
   const [userInfo, setUserInfo] = React.useState(
     localStorage.getItem('authInfo'),
   );
+
+  React.useEffect(()=>{
+    socket.on('connect', () => {
+      console.log('connected');
+    },
+  );
+  socket.on('disconnect', () => {
+    console.log('disconnected');
+  });
+  })
+  
+socket.emit('get_lists_and_notes', 9)
 
   React.useEffect(() => {
     const onInit = (auth2) => {
