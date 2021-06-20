@@ -2,3 +2,4 @@ node_modules
 vs
 /.vs_code
 /.git
+frontend/src/socket.io.js

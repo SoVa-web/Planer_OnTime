@@ -1,15 +1,25 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable global-require */
 import React from 'react';
 import axios from 'axios';
 import Context from './context';
 import { List, AddList, Content } from './components';
 import './App.css';
 
+
+const {io} = import ('https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js');
+
+const socket = io.connect('ws://planer-ontime.herokuapp.com');
+
+socket.on('connect', console.log('connected'));
+socket.on('disconnect', console.log('disconnected'));
+
 function App() {
   const [lists, setLists] = React.useState([]);
   const [selectedList, setSelectedList] = React.useState(null);
   const [isVisibleForm, setFormVisibility] = React.useState(false);
   const isRemovable = true;
-
   /* const [googleUserId, setGoogleUserId] = React.useState(null); */
   const [userInfo, setUserInfo] = React.useState(
     localStorage.getItem('authInfo'),
@@ -30,6 +40,17 @@ function App() {
         .then(onInit, onError);
     });
   }, []);
+
+  /* React.useEffect(() => {
+    
+    // const socket = io.connect('ws://localhost:3000/');
+    socket.on('connect', 
+        console.log('connected')
+    );
+    socket.on('disconnect', 
+        console.log('disconnected'))
+    }) */
+
   function signIn() {
     const authOK = (user) => {
       console.log('OK AUTH');
@@ -56,7 +77,7 @@ function App() {
         }),
       }).then(async (resp) => {
         const r = await resp.text();
-        console.log('ФФФФФФФФФФФФФФФФФФФ', r);
+        console.log('user', r);
       });
     };
 
