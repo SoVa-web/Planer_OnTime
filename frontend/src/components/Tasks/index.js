@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useContext } from 'react';
-import axios from 'axios';
 import AddTask from '../AddTask';
 // import EditTask from '../EditTask';
 import '../Content/Tasks.scss';
@@ -12,6 +11,7 @@ import Edit2Svg from '../../assets/edit2.svg';
 import DeleteSvg from '../../assets/cross2.svg';
 import StarSvg from '../../assets/star.svg';
 // import MoreSvg from '../../assets/more.svg';
+const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
 
 export default function Tasks({ list, listName }) {
   const {
@@ -25,32 +25,78 @@ export default function Tasks({ list, listName }) {
 
   const changeTitle = () => {
     // eslint-disable-next-line no-alert
-    const newTitle = window.prompt('Title name', list.name);
+    const newTitle = window.prompt('Title name', list.listName);
     if (newTitle) {
-      onChangeTitleInList(list.id, newTitle);
+      /* onChangeTitleInList(list.id, newTitle);
       axios.patch('http://localhost:3001/lists/' + list.id, {
         name: newTitle,
+      }); */
+      onChangeTitleInList(list.id, newTitle);
+
+      const changedListObj = {
+        googleIdentify: 8,
+        nameList: newTitle,
+        id: list.id,
+      };
+
+      socket.on('listUpdated', (answer) => {
+        console.log(answer);
       });
+
+      socket.emit('updateList', changedListObj);
     }
   };
 
   function onChangeCompStatus(event, task) {
     // console.log(task, event.target.checked);
-    axios.patch('http://localhost:3001/tasks/' + task.id, {
+    /* axios.patch('http://localhost:3001/tasks/' + task.id, {
       completed: event.target.checked,
       compDate: Number(new Date().setHours(0, 0, 0, 0)),
+    }); */
+    let curDate = null;
+    if (event.target.checked) curDate = Number(new Date().setHours(0, 0, 0, 0));
+
+    const changedNoteObj = {
+      googleIdentify: 8,
+      id: task.id,
+      noteName: task.noteName,
+      deadlineTask: task.deadline,
+      dateComplation: curDate,
+      importantTask: task.important,
+    };
+
+    socket.on('noteUPD', (answer) => {
+      console.log(answer);
     });
-    onChangeCompTask(task, event.target.checked);
+    socket.emit('updateNote', changedNoteObj);
+
+    onChangeCompTask(task, event.target.checked, curDate);
   }
 
   function onChangeImpStatus(event, task) {
-    axios.patch('http://localhost:3001/tasks/' + task.id, {
+    /* axios.patch('http://localhost:3001/tasks/' + task.id, {
       important: event.target.checked,
+    }); */
+
+    const changedNoteObj = {
+      googleIdentify: 8,
+      id: task.id,
+      noteName: task.noteName,
+      deadlineTask: task.deadline,
+      dateComplation: task.dateComplation,
+      importantTask: !task.important,
+    };
+
+    socket.on('noteUPD', (answer) => {
+      console.log(answer);
     });
+    socket.emit('updateNote', changedNoteObj);
     onChangeImpTask(task, event.target.checked);
   }
 
   function daysLeft(taskDeadline) {
+    if (!taskDeadline) return '';
+
     const curDate = Number(new Date().setHours(0, 0, 0, 0));
     const diff = Math.round((taskDeadline - curDate) / (24 * 3600 * 1000));
     if (diff === 0) return 'today';
@@ -71,71 +117,63 @@ export default function Tasks({ list, listName }) {
         </div>
       ) : (
         <div className="tasks__title">
-          <h1 className="title">{list.name}</h1>
+          <h1 className="title">{list.listName}</h1>
           <img alt="edit" src={EditSvg} onClick={() => changeTitle()} />
         </div>
       )}
 
       <div className="tasks__items">
         {list.tasks &&
-          list.tasks.map((item) =>
-            !item.deleteDate ? (
-              <div key={item.id} className="tasks__items_item">
-                <div className="checkbox">
-                  <input
-                    id={`done${item.id}`}
-                    type="checkbox"
-                    onChange={(event) => onChangeCompStatus(event, item)}
-                    checked={item.completed}
-                  />
-                  <label htmlFor={`done${item.id}`} className="done-label">
-                    <img alt="done" src={CheckSvg} />
-                  </label>
-                </div>
-                <div className="task">
-                  <p key="task-p">{item.title}</p>
-                  <div className="task__icons">
-                    <p className="task__deadline">{daysLeft(item.deadline)}</p>
+          list.tasks.map((item) => (
+            <div key={item.id} className="tasks__items_item">
+              <div className="checkbox">
+                <input
+                  id={`done${item.id}`}
+                  type="checkbox"
+                  onChange={(event) => onChangeCompStatus(event, item)}
+                  checked={item.status}
+                />
+                <label htmlFor={`done${item.id}`} className="done-label">
+                  <img alt="done" src={CheckSvg} />
+                </label>
+              </div>
+              <div className="task">
+                <p key="task-p">{item.noteName}</p>
+                <div className="task__icons">
+                  <p className="task__deadline">{daysLeft(item.deadline)}</p>
 
-                    {/* <img src={MoreSvg} alt="more" className="more-img" onClick={() => onEditTask(item)}/> */}
+                  {/* <img src={MoreSvg} alt="more" className="more-img" onClick={() => onEditTask(item)}/> */}
 
-                    <div className="checkbox">
-                      <input
-                        id={`important${item.id}`}
-                        type="checkbox"
-                        onChange={(event) => onChangeImpStatus(event, item)}
-                        checked={item.important}
-                      />
-                      <label
-                        htmlFor={`important${item.id}`}
-                        className="imp-label"
-                      >
-                        <img
-                          className="imp-img"
-                          alt="important"
-                          src={StarSvg}
-                        />
-                      </label>
-                    </div>
-                    <img
-                      alt="edit"
-                      src={Edit2Svg}
-                      className="task-img task-img1"
-                      onClick={() => onEditTask(item)}
+                  <div className="checkbox">
+                    <input
+                      id={`important${item.id}`}
+                      type="checkbox"
+                      onChange={(event) => onChangeImpStatus(event, item)}
+                      checked={item.important}
                     />
-                    <img
-                      alt="delete"
-                      src={DeleteSvg}
-                      className="task-img"
-                      onClick={() => onRemoveTask(item)}
-                    />
+                    <label
+                      htmlFor={`important${item.id}`}
+                      className="imp-label"
+                    >
+                      <img className="imp-img" alt="important" src={StarSvg} />
+                    </label>
                   </div>
+                  <img
+                    alt="edit"
+                    src={Edit2Svg}
+                    className="task-img task-img1"
+                    onClick={() => onEditTask(item)}
+                  />
+                  <img
+                    alt="delete"
+                    src={DeleteSvg}
+                    className="task-img"
+                    onClick={() => onRemoveTask(item)}
+                  />
                 </div>
               </div>
-            ) : (
-              <></>
-            ),
-          )}
+            </div>
+          ))}
         <AddTask key={list.id} onAddTask={onAddTask} list={list} />
       </div>
     </div>

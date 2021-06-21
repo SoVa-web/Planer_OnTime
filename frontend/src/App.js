@@ -1,7 +1,11 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
-import axios from 'axios';
+
 import Context from './context';
 import { List, AddList, Content, Header } from './components';
+
+const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
 
 function App() {
   const [lists, setLists] = React.useState([]);
@@ -10,7 +14,18 @@ function App() {
   const isRemovable = true;
   // console.log('SelListrr', selectedList);
 
-  const [userInfo, setUserInfo] = React.useState(localStorage.getItem("authInfo"));
+  const [userInfo, setUserInfo] = React.useState(
+    localStorage.getItem('authInfo'),
+  );
+
+  React.useEffect(() => {
+    socket.on('connect', () => {
+      console.log('connected');
+    });
+    socket.on('disconnect', () => {
+      console.log('disconnected');
+    });
+  });
 
   React.useEffect(() => {
     const onInit = (auth2) => {
@@ -27,22 +42,23 @@ function App() {
         .then(onInit, onError);
     });
   });
+
   function signIn() {
     const authOK = (user) => {
-      console.log('OK AUTH');
+      // console.log('OK AUTH');
       setUserInfo({
         googleUserId: user.getBasicProfile().getId(),
         name: user.getBasicProfile().getName(),
         imgUrl: user.getBasicProfile().getImageUrl(),
         email: user.getBasicProfile().getEmail(),
       });
-      console.log(userInfo);
+      // console.log(userInfo);
       localStorage.setItem('authInfo', {
         googleUserId: user.getBasicProfile().getId(),
         name: user.getBasicProfile().getName(),
         imgUrl: user.getBasicProfile().getImageUrl(),
         email: user.getBasicProfile().getEmail(),
-      })
+      });
     };
 
     const authErr = () => {
@@ -55,17 +71,35 @@ function App() {
   function signOut() {
     const out = () => {
       setUserInfo(null);
-      localStorage.removeItem("authInfo")
+      localStorage.removeItem('authInfo');
     };
     const GoogleAuth = window.gapi.auth2.getAuthInstance();
     GoogleAuth.signOut().then(out);
-    console.log('out out out', userInfo);
+    // console.log('out out out', userInfo);
   }
 
   function getData() {
-    axios
+    /* axios
       .get('http://localhost:3001/lists?_embed=tasks')
-      .then(({ data }) => setLists(data));
+      .then(({ data }) => setLists(data)); */
+
+    socket.on('data', (answer) => {
+      answer.lists.push({
+        id: null,
+        listName: 'Base',
+      });
+
+      for (const i of answer.lists) {
+        i.tasks = [];
+        for (const j of answer.notes) {
+          // eslint-disable-next-line eqeqeq
+          if (j.listId == i.id) i.tasks.push(j);
+        }
+      }
+      console.log('AAAAAAAAAAAA', answer.lists);
+      setLists(answer.lists);
+    });
+    socket.emit('get_lists_and_notes', 8);
   }
 
   React.useEffect(getData, []);
@@ -75,17 +109,15 @@ function App() {
     setLists(newLists);
   }
 
-  function onRemove(item) {
-    const newLists = lists.filter((ll) => ll.id !== item.id);
+  function onRemove(itemId) {
+    const newLists = lists.filter((ll) => ll.id !== itemId);
     setLists(newLists);
   }
 
   function onChangeTitleInList(listId, newTitle) {
     const newLists = lists.map((list) => {
       if (list.id === listId) {
-        const changedList = list;
-        changedList.name = newTitle;
-        return changedList;
+        list.listName = newTitle;
       }
       return list;
     });
@@ -106,36 +138,68 @@ function App() {
   }
 
   function onRemoveTask(task) {
-    const path = 'http://localhost:3001/tasks/' + task.id;
-    if (!task.completed) {
-      axios.delete(path).then(() => getData());
-      // console.log(task.id);
-    } else {
+    // const path = 'http://localhost:3001/tasks/' + task.id;
+    // if (!task.completed) {
+
+    // axios.delete(path).then(() => getData());
+    // console.log(task.id);
+    /* } else {
       axios
         .patch(path, { deleteDate: Number(new Date().setHours(0, 0, 0, 0)) })
         .then(() => getData());
-    }
+    } */
+    let today = new Date();
+    today = Number(today.setHours(0, 0, 0, 0));
+
+    const deleteNoteObj = {
+      googleIdentify: 8,
+      id: task.id,
+      dataDelete: today,
+    };
+
+    socket.on('noteDeleted', (answer) => {
+      console.log(answer);
+      getData();
+    });
+    socket.emit('deleteNote', deleteNoteObj);
   }
 
   function onEditTask(task) {
     // eslint-disable-next-line no-alert
-    const editTitle = prompt('task title', task.title);
+    const editTitle = prompt('task title', task.noteName);
 
-    if (editTitle && editTitle !== task.title) {
-      axios
+    if (editTitle && editTitle !== task.noteName) {
+      const changedNoteObj = {
+        googleIdentify: 8,
+        id: task.id,
+        noteName: editTitle,
+        deadlineTask: task.deadline,
+        dateComplation: task.dateComplation,
+        importantTask: task.important,
+      };
+
+      socket.on('noteUPD', (answer) => {
+        console.log(answer);
+        getData();
+      });
+      socket.emit('updateNote', changedNoteObj);
+
+      /* axios
         .patch('http://localhost:3001/tasks/' + task.id, { title: editTitle })
         .then(() => getData());
+      */
     }
   }
 
-  function onChangeCompTask(task, completed) {
+  function onChangeCompTask(task, completed, compDate) {
     const compList = lists.map((list) => {
       if (list.id === task.listId) {
         const newList = list;
         newList.tasks = list.tasks.map((oldTask) => {
           if (oldTask.id === task.id) {
             const newTask = oldTask;
-            newTask.completed = completed;
+            newTask.status = completed;
+            newTask.dateComplation = compDate;
             return newTask;
           }
           return oldTask;

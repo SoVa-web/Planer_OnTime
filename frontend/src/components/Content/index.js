@@ -9,7 +9,7 @@ import Pomodoro from '../Pomodoro';
 const msInDay = 24 * 3600 * 1000;
 
 export default function Content({ lists }) {
-  const baseList = lists.find((list) => list.name === 'Base');
+  const baseList = lists.find((list) => list.listName === 'Base');
   if (baseList) baseList.tasks.sort((t1, t2) => t1.deadline - t2.deadline);
 
   // console.log(lists, baseList);
@@ -49,8 +49,8 @@ function WeekTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
   newList.tasks = newList.tasks.filter(
     (task) =>
-      task.deadline <= Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6 &&
-      !task.deleteDate,
+      task.deadline <= Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6, // &&
+    // !task.deleteDate,  //
   );
   return <Tasks list={newList} listName="Week" />;
 }
@@ -58,9 +58,8 @@ function WeekTasks({ selList }) {
 function DayTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
   newList.tasks = newList.tasks.filter(
-    (task) =>
-      task.deadline <= Number(new Date().setHours(0, 0, 0, 0)) &&
-      !task.deleteDate,
+    (task) => task.deadline <= Number(new Date().setHours(0, 0, 0, 0)), // &&
+    // !task.deleteDate,
   );
   return <Tasks list={newList} listName="Today" />;
 }
@@ -68,29 +67,29 @@ function DayTasks({ selList }) {
 function ImportantTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
   newList.tasks = newList.tasks.filter(
-    (task) => task.important && !task.deleteDate,
+    (task) => task.important, // && !task.deleteDate,
   );
   return <Tasks list={newList} listName="Important" />;
 }
 
 function AffairsTasks({ selList }) {
-  const newList = JSON.parse(JSON.stringify(selList));
-  newList.tasks = newList.tasks.filter((task) => !task.deleteDate);
-  return <Tasks list={newList} listName="Affairs" />;
+  // const newList = JSON.parse(JSON.stringify(selList));
+  // newList.tasks = newList.tasks.filter((task) => !task.deleteDate);
+  return <Tasks list={selList} listName="Affairs" />;
 }
 
 function PlannedTasks({ selList }) {
   const newList = JSON.parse(JSON.stringify(selList));
   newList.tasks = newList.tasks.filter(
     (task) =>
-      task.deadline > Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6 &&
-      !task.deleteDate,
+      task.deadline > Number(new Date().setHours(0, 0, 0, 0)) + msInDay * 6, // &&
+    // !task.deleteDate,
   );
   return <Tasks list={newList} listName="Planned" />;
 }
 
 function ShowTasks({ selList }) {
-  const newList = JSON.parse(JSON.stringify(selList));
-  newList.tasks = newList.tasks.filter((task) => !task.deleteDate);
-  return <Tasks list={newList} />;
+  // const newList = JSON.parse(JSON.stringify(selList));
+  // newList.tasks = newList.tasks.filter((task) => !task.deleteDate);
+  return <Tasks list={selList} />;
 }

@@ -2,7 +2,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import './List.scss';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import ListSvg from '../../assets/list.svg';
@@ -14,6 +13,8 @@ import CalendarSvg from '../../assets/calendar.svg';
 import TomatoSvg from '../../assets/tomato.svg';
 import PlusSvg from '../../assets/plus.svg';
 import RemoveSVg from '../../assets/delete.svg';
+
+const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function List({
@@ -47,30 +48,45 @@ export default function List({
 
   function removeConf(item) {
     // eslint-disable-next-line no-alert
-    if (window.confirm(`Do you really want to delete list ${item.name}?`))
-      axios.delete('http://localhost:3001/lists/' + item.id).then(() => {
-        onRemove(item);
+    if (window.confirm(`Do you really want to delete list ${item.listName}?`)) {
+      let today = new Date();
+      today = Number(today.setHours(0, 0, 0, 0));
+
+      const deleteListObj = {
+        googleIdentify: 8,
+        id: item.id,
+        dataDelete: today,
+      };
+      socket.on('listDeleted', (answer) => {
+        console.log(answer);
+        onRemove(item.id);
       });
+      socket.emit('deleteList', deleteListObj);
+    }
+
+    /* axios.delete('http://localhost:3001/lists/' + item.id).then(() => {
+        onRemove(item);
+      }); */
   }
 
   let baseList;
-  if (lists) baseList = lists.find((item) => item.name === 'Base');
+  if (lists) baseList = lists.find((item) => item.listName === 'Base');
   // console.log('menu', lists);
 
   const [baseSelList, setBaseSelList] = React.useState([
-    { name: 'today', sel: false },
-    { name: 'week', sel: false },
-    { name: 'important', sel: false },
-    { name: 'planned', sel: false },
-    { name: 'affairs', sel: false },
-    { name: 'pomodoro', sel: false },
+    { listName: 'today', sel: false },
+    { listName: 'week', sel: false },
+    { listName: 'important', sel: false },
+    { listName: 'planned', sel: false },
+    { listName: 'affairs', sel: false },
+    { listName: 'pomodoro', sel: false },
   ]);
 
   function setSelList(listName) {
     const newBaseSelList = baseSelList.map((bList) => {
-      if (bList.name === listName) {
+      if (bList.listName === listName) {
         bList.sel = true;
-      } else if (bList.name !== listName && bList.sel === true) {
+      } else if (bList.listName !== listName && bList.sel === true) {
         bList.sel = false;
       }
       return bList;
@@ -79,7 +95,7 @@ export default function List({
   }
 
   function isSelList(listName) {
-    const list = baseSelList.find((bList) => bList.name === listName);
+    const list = baseSelList.find((bList) => bList.listName === listName);
     return list.sel;
   }
 
@@ -90,7 +106,7 @@ export default function List({
 
   function onClickUserList(list) {
     onClickList(list);
-    setSelList(list.name);
+    setSelList(list.listName);
   }
 
   return (
@@ -199,7 +215,7 @@ export default function List({
           <ul className="list userList">
             {lists &&
               lists.map((list) =>
-                list.name !== 'Base' ? (
+                list.listName !== 'Base' ? (
                   <Link key={list.id} to={'/userList' + list.id}>
                     <li
                       key={list.id}
@@ -209,7 +225,7 @@ export default function List({
                       onClick={() => onClickUserList(list)}
                     >
                       <i>{icons(8)}</i>
-                      <span>{list.name}</span>
+                      <span>{list.listName}</span>
 
                       <i>
                         <img
