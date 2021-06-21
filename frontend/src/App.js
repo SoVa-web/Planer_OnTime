@@ -1,3 +1,7 @@
+/* eslint-disable dot-notation */
+/* eslint-disable no-empty */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable global-require */
@@ -7,10 +11,7 @@ import Context from './context';
 import { List, AddList, Content } from './components';
 import './App.css';
 
-
-
 const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
-
 
 function App() {
   const [lists, setLists] = React.useState([]);
@@ -22,17 +23,14 @@ function App() {
     localStorage.getItem('authInfo'),
   );
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     socket.on('connect', () => {
       console.log('connected');
-    },
-  );
-  socket.on('disconnect', () => {
-    console.log('disconnected');
+    });
+    socket.on('disconnect', () => {
+      console.log('disconnected');
+    });
   });
-  })
-  
-socket.emit('get_lists_and_notes', 9)
 
   React.useEffect(() => {
     const onInit = (auth2) => {
@@ -49,16 +47,6 @@ socket.emit('get_lists_and_notes', 9)
         .then(onInit, onError);
     });
   }, []);
-
-  /* React.useEffect(() => {
-    
-    // const socket = io.connect('ws://localhost:3000/');
-    socket.on('connect', 
-        console.log('connected')
-    );
-    socket.on('disconnect', 
-        console.log('disconnected'))
-    }) */
 
   function signIn() {
     const authOK = (user) => {
@@ -107,11 +95,40 @@ socket.emit('get_lists_and_notes', 9)
     console.log('out out out', userInfo);
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   function getData() {
-    axios
-      .get('http://localhost:3001/lists?_embed=tasks')
-      .then(({ data }) => setLists(data));
+socket.once('data', (answer) => {
+        console.table(answer)
+        answer.lists.push({
+          id:null,
+          listName:'Base'
+        })
+        for (const i of answer.lists){
+         i.tasks = [] 
+         for(const j of answer.notes){
+           // eslint-disable-next-line eqeqeq
+           if (j.listId ==i.id) i.tasks.push(j)
+         }
+         if (!i.id) {
+          for(const j of answer.notes){
+            // eslint-disable-next-line eqeqeq
+            if (!j.listId) console.log("KKKKKKKK")
+          }
+         }
+        }
+       console.log("AAAAAAAAAAAA", answer.lists)
+        setLists(answer.lists)
+      });
+      socket.emit('get_lists_and_notes', 9); 
+/*    axios
+     .get('http://localhost:3001/lists?_embed=tasks')
+     .then(({ data }) => {setLists(data)
+    console.log("DDDDDDDD", data)}); */
   }
+
+  // getData().then((data)=>{console.log("DDDDDDDDDDDD", data)})
+
+  
 
   React.useEffect(getData, []);
 

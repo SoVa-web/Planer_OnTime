@@ -202,7 +202,7 @@ export default function List({
                     onClick={() => onClickUserList(list)}
                   >
                     <i>{icons(8)}</i>
-                    <span>{list.name}</span>
+                    <span>{list.listName}</span>
 
                     <i>
                       <img

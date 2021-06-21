@@ -67,7 +67,7 @@ export default function Content({ list, listName }) {
         </div>
       ) : (
         <div className="tasks__title">
-          <h1 className="title">{list.name}</h1>
+          <h1 className="title">{list.listName}</h1>
           <img alt="edit" src={EditSvg} onClick={() => changeTitle()} />
         </div>
       )}
