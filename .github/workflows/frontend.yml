@@ -39,9 +39,9 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-      - run: yarn start
         env: 
           CI: true
           GOOGLE_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
-            
+      - run: yarn start
           
+
