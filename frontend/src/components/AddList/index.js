@@ -5,7 +5,7 @@ import CancelSvg from '../../assets/cancel.svg';
 
 const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
 
-export default function AddList({  isVisible, setVisibility }) {
+export default function AddList({ isVisible, setVisibility }) {
   // const [isVisible, setVisibility] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
 
