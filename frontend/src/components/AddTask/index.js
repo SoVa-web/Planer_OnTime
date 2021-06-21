@@ -1,7 +1,6 @@
 import React from 'react';
 import './AddTask.scss';
 
-import axios from 'axios';
 import classNames from 'classnames';
 import PlusSvg from '../../assets/plus.svg';
 import SunSvg from '../../assets/sun.svg';
@@ -9,7 +8,9 @@ import WeekSvg from '../../assets/week.svg';
 import TomorrowSvg from '../../assets/sunrise.svg';
 import MonthSvg from '../../assets/month.svg';
 
-export default function AddTask({ onAddTask, list }) {
+const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
+
+export default function AddTask({ list }) {
   const [isVisibleForm, setFormVisibility] = React.useState(false);
   const [inputTitle, setInputTitle] = React.useState('');
 
@@ -29,6 +30,8 @@ export default function AddTask({ onAddTask, list }) {
   }
 
   function saveTask() {
+    if (!inputTitle.length) return;
+
     let today = new Date();
     today = Number(today.setHours(0, 0, 0, 0));
     let imp = false;
@@ -56,6 +59,10 @@ export default function AddTask({ onAddTask, list }) {
         expDate = null;
         break;
     }
+
+    let sendListId = null;
+    if (list.listName !== 'Base') sendListId = list.id;
+
     /* switch (title) {
       case 'today': 
         expDate = today;    
@@ -74,7 +81,7 @@ export default function AddTask({ onAddTask, list }) {
         break;
     } */
 
-    const newTask = {
+    /* const newTask = {  //current
       listId: list.id,
       title: inputTitle,
       creationDate: today,
@@ -84,7 +91,7 @@ export default function AddTask({ onAddTask, list }) {
       completed: false,
       deleteDate: null,
     };
-
+*/
     /*
     const newTask = {
       googleIdentify: 8,
@@ -96,12 +103,24 @@ export default function AddTask({ onAddTask, list }) {
     }
     */
 
-    if (inputTitle.length)
-      axios.post('http://localhost:3001/tasks', newTask).then((savedTask) => {
+    const newNoteObj = {
+      googleIdentify: JSON.parse(window.localStorage.getItem('authInfo'))
+        .googleUserId,
+      noteName: inputTitle,
+      createDate: today,
+      deadlineTask: expDate,
+      importantTask: imp,
+      statusComp: false,
+      idlist: sendListId,
+    };
+    setFormVisibility(!isVisibleForm);
+    setInputTitle('');
+    socket.emit('createNote', newNoteObj);
+    /* axios.post('http://localhost:3001/tasks', newTask).then((savedTask) => {
         onAddTask(list.id, savedTask.data);
         setFormVisibility(!isVisibleForm);
         setInputTitle('');
-      });
+      }); */
   }
 
   function chooseData(dataId) {

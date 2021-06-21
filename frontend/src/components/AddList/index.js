@@ -1,24 +1,58 @@
 import React from 'react';
-import axios from 'axios';
 
 import './AddList.scss';
 import CancelSvg from '../../assets/cancel.svg';
 
-export default function AddList({ onSave, isVisible, setVisibility }) {
+const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
+
+export default function AddList({  isVisible, setVisibility }) {
   // const [isVisible, setVisibility] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
 
   function saveList() {
-    if (inputValue)
+    /* if (inputValue)
       axios
         .post('http://localhost:3001/lists', { name: inputValue })
         .then(({ data }) => {
           const newData = { ...data, tasks: [] };
-          console.log(data, newData);
+          console.log('new list', data, newData);
           onSave(newData);
         });
-    setVisibility();
-    setInputValue('');
+    */
+
+    if (inputValue) {
+      const newList = {
+        googleIdentify: JSON.parse(window.localStorage.getItem('authInfo'))
+          .googleUserId,
+        nameList: inputValue,
+      };
+
+      /* socket.once('listCreated', (answer) => {
+        // console.log('listCreated', answer);
+        // const newData = { ...data, tasks: [] };
+        // console.log('new list', data, newData);
+        // onSave(newData);
+        const newSentList = {
+          id: answer,
+          listName: inputValue,
+          tasks: [],
+        };
+
+        onSave(newSentList);
+      }); */
+      socket.emit('createList', newList);
+      // const listId =
+      // sendNewList(newList).then((id) => console.log('new list id', id));
+      /* const newList2 = {
+        id: listId,
+        nameList: inputValue,
+        tasks: []
+      } */
+      // onSave(newList2);
+
+      setVisibility();
+      setInputValue('');
+    }
   }
 
   return (
