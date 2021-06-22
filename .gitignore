@@ -25,7 +25,6 @@ yarn-debug.log*
 yarn-error.log*
 
 
-##########################
 # compiled output
 dist
 
@@ -46,6 +45,8 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 
+.vs
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
@@ -56,3 +57,4 @@ lerna-debug.log*
 #dev files
 cli.js
 connect_to_bd.js
+.env
