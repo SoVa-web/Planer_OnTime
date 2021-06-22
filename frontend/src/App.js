@@ -6,7 +6,7 @@ import React from 'react';
 import Context from './context';
 import { List, AddList, Content, Header } from './components';
 
-const socket = window.io.connect('ws://planer-ontime.herokuapp.com');
+const socket = window.io.connect('wss://planer-ontime.herokuapp.com');
 
 function App() {
   const [lists, setLists] = React.useState([]);
@@ -60,7 +60,7 @@ function App() {
     window.gapi.load('auth2', () => {
       window.gapi.auth2
         .init({
-          client_id: process.env.GOOGLE_ID,
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         })
         .then(onInit, onError);
     });
@@ -85,6 +85,18 @@ function App() {
           email: user.getBasicProfile().getEmail(),
         }),
       );
+      fetch('https://planer-ontime.herokuapp.com/get', {
+        method: 'POST',
+        body: JSON.stringify({
+          googleUserId: user.getBasicProfile().getId(),
+          name: user.getBasicProfile().getName(),
+          imgUrl: user.getBasicProfile().getImageUrl(),
+          email: user.getBasicProfile().getEmail(),
+        }),
+      }).then(async (resp) => {
+        const r = await resp.text();
+        console.log('user', r);
+      });
       window.location.reload();
     };
 
