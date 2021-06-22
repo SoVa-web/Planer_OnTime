@@ -6,9 +6,15 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
+    "classnames": "^2.3.1",
+    "node-sass": "^5.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "sass": "^1.35.1",
+    "socket.io-client": "^4.1.2",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
@@ -19,7 +25,8 @@
     "lint:fix": "eslint --max-warnings=0 --fix ./",
     "lint": "eslint --max-warnings=0 ./",
     "format:fix": "prettier --write **/*.{js,jsx}",
-    "format": "prettier  **/*.{js,jsx}"
+    "format": "prettier  **/*.{js,jsx}",
+    "server": "json-server ./src/assets/db.json --watch --port 3001"
   },
   "eslintConfig": {
     "extends": [
